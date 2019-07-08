@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="../css/font.css" />
+		<link rel="stylesheet" type="text/css" href="../css/xadmin.css" />
+		<title>智慧食安大数据线上监控平台--基本统计</title>
+		<style type="text/css">
+			.layui-form-label {
+				width: 50px;
+			}
+			
+			.layui-form-item .layui-input-inline {
+				width: 132px;
+				margin-right: 5px;
+			}
+			
+			.layui-table-cell {
+				height: auto;
+			}
+			
+			.layui-form-item {
+				margin-bottom: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="x-body" style="padding: 5px;">
+			<div class="layui-tab layui-tab-card">
+				<div class="layui-tab-content" style="padding: 5px;height: 100%;">
+					<div class="layui-tab-item layui-show">
+						<!-- 按钮操作 -->
+						<div class="clearfix">
+							<xblock style="margin-bottom: 5px; padding: 3px;">
+								<form class="layui-form" id="form1">
+									<!--第一行-->
+									<div class="layui-form-item">
+										<label class="layui-form-label">日期</label>
+										<div class="layui-input-inline">
+											<input type="text" id="startTime" name="startTime" autocomplete="off" placeholder="请选择抽样开始时间" class="layui-input">
+										</div>
+										<label class="layui-form-label" style="text-align:center">到</label>
+										<div class="layui-input-inline">
+											<input type="text" id="endTime" name="endTime" autocomplete="off" placeholder="请选择抽样结束时间" class="layui-input">
+										</div>
+									</div>
+									<!--第二行-->
+									<div class="layui-form-item">
+										<label class="layui-form-label">所属机构</label>
+										<div class="layui-input-inline">
+											<select id="affiliate" name="affiliate" lay-filter="affiliate" data-select="affiliate">
+
+											</select>
+										</div>
+										<label class="layui-form-label">企业类型</label>
+										<div class="layui-input-inline">
+											<select id="enterpriseType" name="enterpriseType" lay-filter="enterpriseType" data-select="enterpriseType">
+												<option value="">请选择</option>
+												<option value="餐饮服务单位">餐饮服务单位</option>
+												<option value="商场超市">商场超市</option>
+												<option value="集贸市场">集贸市场</option>
+												<option value="门店">门店</option>
+												<option value="学校">学校</option>
+												<option value="学校">机关食堂</option>
+												<option value="学校">农场</option>
+											</select>
+										</div>
+										<label class="layui-form-label">社区</label>
+										<div class="layui-input-inline">
+											<select id="community" name="community" lay-filter="community" data-select="community">
+
+											</select>
+										</div>
+										<label class="layui-form-label">城中村</label>
+										<div class="layui-input-inline">
+											<select id="villageInCity" name="villageInCity" lay-filter="villageInCity" data-select="villageInCity">
+
+											</select>
+										</div>
+									</div>
+									<!--第三行-->
+									<div class="layui-form-item">
+										<label class="layui-form-label">样品类别</label>
+										<div class="layui-input-inline">
+											<select id="sampleType" name="sampleType" lay-filter="sampleType" data-select="sampleType">
+
+											</select>
+										</div>
+										<label class="layui-form-label">样品名称</label>
+										<div class="layui-input-inline">
+											<select id="sampleName" name="sampleName" lay-filter="sampleName" data-select="sampleName">
+
+											</select>
+										</div>
+
+										<label class="layui-form-label">检测结果</label>
+										<div class="layui-input-inline">
+											<select id="detectionResult" name="detectionResult" lay-filter="detectionResult" data-select="detectionResult">
+												<option value="">请选择</option>
+												<option value="阴性">阴性</option>
+												<option value="阳性">阳性</option>
+											</select>
+										</div>
+										<label class="layui-form-label">样品来源</label>
+										<div class="layui-input-inline">
+											<select id="sampleSource" name="sampleSource" lay-filter="sampleSource" data-select="sampleSource">
+												<option value="">请选择</option>
+												<option value="日常抽检">日常抽检</option>
+												<option value="配合抽检">配合抽检</option>
+												<option value="活动送检">活动送检</option>
+												<option value="非活动市民送检">非活动市民送检</option>
+											</select>
+										</div>
+										<label class="layui-form-label">时间模式</label>
+										<div class="layui-input-inline">
+											<select id="timePattern" name="timePattern" lay-filter="timePattern" data-select="timePattern">
+												<option value="">请选择</option>
+												<option value="周">周</option>
+												<option value="月">月</option>
+												<option value="季">季</option>
+												<option value="年">年</option>
+											</select>
+										</div>
+									</div>
+								</form>
+							</xblock>
+						</div>
+						<!--数据表格展示 Starts-->
+						<table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+						<!--数据表格展示 End-->
+						<!--折线图显示 Statrs-->
+						<div class="datachart" style="width: 45%;margin:20px 0 0 3%;float:left;">
+							<div class="layui-card">
+								<div class="layui-card-header piechart-header" style="font-size:16px;text-align: center;">抽样类别合格率统计</div>
+								<div class="layui-card-body" style="padding: 0; ">
+									<div id="barchart" style="width:100%;height:300px;"></div>
+								</div>
+							</div>
+						</div>
+						<div class="datachart" style="width: 45%;margin:20px 0 0 3%;float:left;">
+							<div class="layui-card">
+								<div class="layui-card-header piechart-header" style="font-size:16px;text-align: center;">抽样位置分布</div>
+								<div class="layui-card-body" style="padding: 0; ">
+									<div id="piechart" style="height:300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="../lib/layui/layui.js"></script>
+		<script type="text/javascript" src="../js/xadmin.js"></script>
+		<script type="text/javascript" src="../js/config.js"></script>
+		<script type="text/javascript" src="../js/echarts.min.js"></script>
+		<script>
+			var obj = new Object(); //定义全局的查询条件对象集合
+			$(document).ready(function() {
+				obj.startTime = "";
+				obj.endTime = "";
+				obj.affiliate = "";
+				obj.placeType = "";
+				obj.community = "";
+				obj.villageInCity = "";
+				obj.type = "";
+				obj.sampleName = "";
+				obj.detectionResult = "";
+				obj.classification = "";
+				obj.timeOfType = "年";
+				//函数调用----获取所选机构下拉数据
+				var url_Affiliate = contextPath + '/DataQueryController/findAffiliate'; //机构
+				optionRenderHtml(url_Affiliate, 'affiliate');
+				//函数调用----获取社区
+				findAddress('', '');
+				//函数调用----获取样品类别
+				findSampleType();
+				//函数调用----表格初始化
+				dataTable(obj); //查询表格 
+				//函数调用----图表初始化
+			});
+
+			layui.use(['form', 'laydate'], function() {
+				var form = layui.form;
+				var laydate = layui.laydate;
+				//所属机构
+				form.on('select(affiliate)', function(data) {
+					obj.affiliate = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//企业类型
+				form.on('select(enterpriseType)', function(data) {
+					obj.placeType = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//社区
+				form.on('select(community)', function(data) {
+					obj.community = data.value;
+					dataTable(obj); //查询表格
+					var url = contextPath + '/DataQueryController/findAddress'; //请求接口路径
+					console.log(data.value);
+					var formData = {
+						Community: data.value,
+						VillageInCity: ''
+					};
+					$.axios(url, formData, function(res) {
+						var data = res;
+						var option = "<option value=''>请选择</option>";
+						for(var i = 0; i < data.length; i++) {
+							option += "<option value='" + data[i] + "'>" + data[i] + "</option>";
+						}
+						if(obj.community){
+							$('#villageInCity').html(option);
+						}else{
+							$('#villageInCity').html('');
+						}
+						form.render();
+					});
+				});
+				//城中村
+				form.on('select(villageInCity)', function(data) {
+					obj.villageInCity = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//样品类别
+				form.on('select(sampleType)', function(data) {
+					obj.type = data.value;
+					dataTable(obj); //查询表格 
+					var url = contextPath + '/DataQueryController/findSampleName';
+					var formData = {
+						Type: data.value
+					};
+					$.axios(url, formData, function(res) {
+						var data = res;
+						var option = "<option value=''>请选择</option>";
+						for(var i = 0; i < data.length; i++) {
+							option += "<option value='" + data[i] + "'>" + data[i] + "</option>";
+						}
+						if(obj.type){
+							$('#sampleName').html(option);
+						}else{
+							$('#sampleName').html('');
+						}
+						form.render();
+					});
+				});
+				//样品名称
+				form.on('select(sampleName)', function(data) {
+					obj.sampleName = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//检测结果
+				form.on('select(detectionResult)', function(data) {
+					obj.detectionResult = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//样品来源
+				form.on('select(sampleSource)', function(data) {
+					obj.classification = data.value;
+					dataTable(obj); //查询表格 
+				});
+				//时间模式
+				form.on('select(timePattern)', function(data) {
+					obj.timeOfType = data.value;
+					console.log(data.value);
+					dataTable(obj); //查询表格 
+				});
+				//起始时间
+				laydate.render({
+					elem: '#startTime',
+					type: 'date',
+					format: 'yyyy-MM-dd', // 分隔符可以任意定义 
+					festival: true,
+					istoday: false,
+					isInitValue: true,
+					max: 0,
+					trigger: 'click', //采用click弹出
+					istime: true,
+					done: function(data) {
+						obj.startTime = data;
+						dataTable(obj); //查询表格 
+					}
+				});
+				//截止时间
+				laydate.render({
+					elem: '#endTime',
+					type: 'date',
+					format: 'yyyy-MM-dd', // 分隔符可以任意定义 
+					festival: true,
+					istoday: false,
+					isInitValue: true,
+					max: 0,
+					trigger: 'click', //采用click弹出
+					istime: true,
+					done: function(data) {
+						obj.endTime = data;
+						dataTable(obj); //查询表格 
+					}
+				});
+
+			});
+			
+			//获取所选机构下拉数据
+			function optionRenderHtml(url, id) {
+				layui.use(['form'], function() {
+					var form = layui.form;
+					$.axios(url, '', function(res) {
+						var data = res;
+						var option = "<option value=''>请选择</option>";
+						for(var i = 0; i < data.length; i++) {
+							option += "<option value='" + data[i] + "'>" + data[i] + "</option>";
+						}
+						$('#' + id).html(option);
+						form.render();
+					});
+				});
+			};
+			//获取抽样地点（社区、城中村）
+			function findAddress(community, villageInCity) {
+				layui.use(['form'], function() {
+					var form = layui.form;
+					var url = contextPath + '/DataQueryController/findAddress'; //请求接口路径
+					var formData = {
+						Community: community,
+						VillageInCity: villageInCity
+					};
+					//调用封装的ajax
+					$.axios(url, formData, function(res) {
+						var data = res;
+						if(villageInCity == '' && community == '') {
+							var option = "<option value=''>请选择</option>";
+							for(var i = 0; i < data.length; i++) {
+								option += "<option value='" + data[i] + "' >" + data[i] + "</option>";
+							}
+							$('#community').html(option);
+						}
+						form.render();
+					});
+				});
+			};
+			//获取样品种类
+			function findSampleType() {
+				layui.use(['form'], function() {
+					var form = layui.form;
+					var url = contextPath + '/DataQueryController/findSampleName';
+					var obj = {
+						Type: ""
+					}
+					$.axios(url, obj, function(res) {
+						var data = res;
+						var option = "<option value=''>请选择</option>";
+						for(var i = 0; i < data.length; i++) {
+							option += "<option value='" + data[i] + "'>" + data[i] + "</option>";
+						}
+						$('#sampleType').html(option);
+						form.render();
+					});
+				});
+			};
+
+			//自己提供筛选数据-------初始化table
+			function dataTable(obj) {
+				$.ajax({
+					type: "post",
+					headers: {
+						token: getCookiesList('zhsa')
+					},
+					url: contextPath + "/BasicStatisticsController/BasicStatistics",
+					async: true,
+					contentType: "application/json",
+					dataType: "JSON",
+					data: JSON.stringify(obj),
+					success: function(dataArr) {
+						let limit = 0;
+						let data = [];
+						if(dataArr.code === 0) {
+							limit = dataArr.data[0].data_table.length;
+							data = dataArr.data[0].data_table;
+						} else {
+							limit = 0;
+							data = [];
+						}
+						if(obj.community) {
+							layui.use(['table', 'form'], function() {
+								var table = layui.table;
+								table.render({
+									id: "myTab",
+									elem: '#dataTable',
+									toolbar: '#toolbarDemo',
+									cellMinWidth: 80,
+									limit: limit,
+									height: '400',
+									page: false,
+									data: data,
+									cols: [
+										[ //标题栏
+											{
+												field: 'zizeng',
+												title: '序号',
+												align: 'center',
+												type: 'numbers'
+											}, {
+												field: 'SamplingDate',
+												title: '统计时间段',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'time',
+												title: '时间模式',
+												align: 'center',
+												sort: true,
+												templet: function(d) {
+													console.log(obj.timeOfType);
+													console.log(d);
+													if(obj.timeOfType === '周') {
+														d.time++;
+													}
+													return d.time + obj.timeOfType;
+												}
+
+											}, {
+												field: 'qualified',
+												title: '合格批次数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'rate',
+												title: '合格率',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'unqualified',
+												title: '不合格批次数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'failureRate',
+												title: '不合格率',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'count',
+												title: '样品批次总数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'community',
+												title: '社区',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'villageInCity',
+												title: '城中村',
+												align: 'center',
+												sort: true,
+											}
+										]
+									]
+								});
+							});
+						} else {
+							layui.use(['table', 'form'], function() {
+								var table = layui.table;
+								table.render({
+									id: "myTab",
+									elem: '#dataTable',
+									toolbar: '#toolbarDemo',
+									cellMinWidth: 80,
+									limit: limit,
+									height: '400',
+									page: false,
+									data: data,
+									cols: [
+										[ //标题栏
+											{
+												field: 'zizeng',
+												title: '序号',
+												align: 'center',
+												type: 'numbers'
+											}, {
+												field: 'SamplingDate',
+												title: '统计时间段',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'time',
+												title: '时间模式',
+												align: 'center',
+												sort: true,
+												templet: function(d) {
+													if(obj.timeOfType === '周') {
+														d.time++;
+													}
+													return d.time + obj.timeOfType;
+												}
+											}, {
+												field: 'qualified',
+												title: '合格批次数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'rate',
+												title: '合格率',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'unqualified',
+												title: '不合格批次数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'failureRate',
+												title: '不合格率',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'count',
+												title: '样品批次总数',
+												align: 'center',
+												sort: true,
+											}, {
+												field: 'community',
+												title: '社区',
+												align: 'center',
+												sort: true,
+											}
+										]
+									]
+								});
+							});
+						};
+						barChartFun(dataArr);
+						pieChartFun(dataArr);
+					}
+				});
+
+			};
+			//创建eChart图
+			function barChartFun(data) {
+				let eChartData = data.data[0].data_bar;
+				let dataName = eChartData.map((value, key, arr) => {
+					return value.type;
+				});
+				let dataCounts = eChartData.map((value, key, arr) => {
+					return value.counts;
+				});
+				let dataRate = eChartData.map((value, key, arr) => {
+					return value.rate.split("%")[0];
+				})
+				let min = judgeRange(Math.min.apply(Math, dataRate));
+				var barChart = echarts.init(document.getElementById("barchart"),'light');
+				option = {
+					/*color: ['#3398DB','#64BD3D'],*/
+					/*title: {
+						text: '抽样类别合格率统计',
+						//subtext: '饼图',
+						x: 'center'
+					},*/
+					toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: false},
+                            dataView : {show: false, readOnly: false},
+                            magicType: {show: false, type: ['line', 'bar']},
+                            restore : {show: false},
+                            saveAsImage : {show: true}
+                        }
+                    },
+					legend: {
+						data: ['抽样总数'],
+					},
+					tooltip: {
+						trigger: 'axis',
+						axisPointer: { // 坐标轴指示器，坐标轴触发有效
+							type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+						},
+						formatter: function(params) {
+							console.log(params);
+					    return params[0].axisValue+'抽样合格率 : '+ params[0].value + '%'+'<br>'+params[1].axisValue+'抽样总数 : '+params[1].value ;
+                       }
+					},
+					grid: {
+						left: '3%',
+						right: '4%',
+						bottom: '3%',
+						containLabel: true,
+					},
+					xAxis: [{
+						type: 'category',
+						data: dataName,
+						axisTick: {
+							alignWithLabel: true
+						}
+					}],
+					yAxis: [{
+							type: 'value',
+							name: '合格率',
+							min: min,
+							axisLabel: {
+								show: true,
+								interval: 'auto',
+								formatter: '{value} %'
+							},
+							show: true
+						}, {
+							type: 'value',
+							name: '抽样总数',
+							axisLabel: {
+								formatter: '{value}'
+							}
+						}
+
+					],
+					series: [{
+							name: '合格率',
+							center: ['60%', '50%'],
+							type: 'bar',
+							barWidth: 20,
+							itemStyle: {
+								normal: {
+									color: function(params) {
+										//var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ];
+										var colorList = ['#C33531', '#64BD3D'];
+										if(params.data == 100) {
+											return colorList[1];
+										} else {
+											return colorList[0];
+										}
+									}
+								},
+							},
+							data: dataRate,
+						}, {
+							name: '抽样总数',
+							center: ['60%', '50%'],
+							type: 'line',
+							yAxisIndex: 1,
+							itemStyle: {
+								normal: {
+									color: "#2ec7c9",
+									lineStyle: {
+										color: "#2ec7c9"
+									}
+								}
+							},
+							data: dataCounts,
+						},
+
+					]
+				};
+				barChart.setOption(option);
+			}
+
+			function pieChartFun(data) {
+				let eChartData = data.data[0].data_pie;
+				let dataName = eChartData.map((value, key, arr) => {
+					return value._id+'('+value.counts+')';
+				});
+				let dataList = eChartData.map((value, key, arr) => {
+					let obj={
+						value: value.counts,
+						name: value._id+'('+value.counts+')'
+					}
+					return obj;
+				});
+				var pieChart = echarts.init(document.getElementById("piechart"),'light');
+				option = {
+					/*title: {
+						text: '抽样位置分布',
+						//subtext: '饼图',
+						x: 'center'
+					},*/
+					toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: false},
+                            dataView : {show: false, readOnly: false},
+                            magicType: {show: false, type: ['line', 'bar']},
+                            restore : {show: false},
+                            saveAsImage : {show: true}
+                        }
+                    },
+					tooltip: {
+						trigger: 'item',
+						//formatter: "{a} <br/>{b} : {c} ({d}%)"
+						formatter: "{a} <br/>{b} : {d}%"
+					},
+					legend: {
+						orient: 'vertical',
+						left: 'left',
+						data: dataName
+					},
+					series: [{
+						name: '抽样数据',
+						type: 'pie',
+						radius: '55%',
+						center: ['60%', '50%'],
+						data: dataList,
+						itemStyle: {
+							emphasis: {
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						}
+					}]
+				};
+				pieChart.setOption(option);
+			}
+
+			function judgeRange(mun) {
+				switch(true) {
+					case mun >= 90 && mun < 100:
+						return 80;
+						break;
+					case mun >= 80 && mun < 90:
+						return 70;
+						break;
+					case mun >= 70 && mun < 80:
+						return 60;
+						break;
+					case mun >= 60 && mun < 70:
+						return 50;
+						break;
+					case mun >= 50 && mun < 60:
+						return 40;
+						break;
+					case mun >= 40 && mun < 50:
+						return 30;
+						break;
+					case mun >= 30 && mun < 40:
+						return 20;
+						break;
+					case mun >= 20 && mun < 30:
+						return 10;
+						break;
+					default:
+						return 0;
+				};
+			}
+		</script>
+	</body>
+
+</html>

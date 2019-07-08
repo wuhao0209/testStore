@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="css/font.css" />
+		<link rel="stylesheet" type="text/css" href="css/xadmin.css" />
+		<title>采样监管信息管理</title>
+		<style type="text/css">
+			.layui-input,
+			.layui-select,
+			.layui-textarea {
+				height: 35px;
+			}
+			
+			.layui-table-cell {
+				height: auto;
+			}
+			
+			.layui-table-view {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="x-body">
+			<!-- 弹出层按钮 -->
+			<div class="clearfix" id="navWidth">
+				<xblock style="height: 32px;">
+					<div class="layui-input-inline" style="float: left;">
+						<input class="layui-input x_search" placeholder="请输入监管信息进行查询" id="patternName" style="width: 200px;">
+					</div>
+				</xblock>
+			</div>
+			<!-- 查询结果显示 -->
+			<div class="show" style="width: 100%;">
+				<div style="width: 100%;">
+					<table class="layui-hide" id="pageTable" lay-filter="demo"></table>
+					<div class="pages" id="doctorDiv" style="text-align:center;"></div>
+					<!--分页组件-->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="lib/layui/layui.js"></script>
+		<script type="text/javascript" src="js/xadmin.js"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var table = "";
+			var form = "";
+			var condition = new Object();
+			$(document).ready(function() {
+
+				initLayUi(); //初始化渲染所有的方法
+			});
+
+			function initLayUi() {
+				layui.use(['table'], function() {
+					var $ = layui.$;
+					table = layui.table;
+					condition.patternName = '';
+					initTable(table, condition); //加载表格数据
+					search(); //条件查询
+				});
+			};
+
+			//加载已知数据
+			function initTable(table, condition) {
+
+				table.render({
+					id: 'myTab',
+					headers: {
+						token: getCookiesList('zhsa')
+					},
+					elem: '#pageTable',
+					url: contextPath + '/DetailedSamplingTaskController/findSamplingTaskDetailed',
+					method: 'post',
+					width: 1657,
+					cellMinWidth: 80,
+					height: 'full-110',
+					page: true,
+					limit: 30,
+					limits: [30, 50, 100, 200],
+					cols: [
+						[ //标题栏
+							{
+								field: 'samplingTaskNum',
+								title: '采样任务编号',
+								align: 'center',
+								width: '9%',
+								//width: '146px',
+								templet: function(d) {
+									return d.info.samplingTaskNum
+								}
+							}, {
+								field: 'community',
+								title: '社区',
+								align: 'center',
+								width: '4.9%',
+								templet: function(d) {
+									return d.info.community
+								}
+							}, {
+								field: 'userName',
+								title: '采样人',
+								align: 'center',
+								width: '5.2%',
+								templet: function(d) {
+									return d.info.userName
+								}
+							}, {
+								field: 'SamplingTime',
+								title: '派发时间',
+								align: 'center',
+								width: '5.8%',
+								templet: function(d) {
+									return d.info.SamplingTime
+								}
+							}, {
+								field: 'samplingNum',
+								title: '采样单编号',
+								align: 'center',
+								width: '6.9%',
+							}, {
+								field: 'client',
+								title: '委托单位',
+								align: 'center',
+								width: '6.4%',
+							}, {
+								field: 'nowDate',
+								title: '抽样时间',
+								align: 'center',
+								width: '7.7%',
+							}, {
+								field: 'shopSignName',
+								title: '受检单位',
+								align: 'center',
+								width: '8.9%',
+							}, {
+								field: 'addressOfInspectedUnit',
+								title: '受检单位地址',
+								align: 'center',
+								width: '8.9%',
+							}, {
+								field: 'fullName',
+								title: '联系人',
+								align: 'center',
+								width: '4.9%',
+							}, {
+								field: 'tel',
+								title: '联系电话',
+								align: 'center',
+								width: '6.4%',
+							}, {
+								field: 'samplingList',
+								title: '采样样品总数',
+								align: 'center',
+								width: '6.9%',
+								templet: function(d) {
+
+									return(d.samplingList.length + '条  <br/><a class="layui-btn layui-btn-xs" lay-event="edit">查看详情>>></a>')
+								}
+							}, {
+								field: 'samplingInspectors_Img_url',
+								title: '抽样人签名',
+								align: 'center',
+								width: '5.9%',
+								templet: function(d) {
+									var html = '';
+									html += '<a href="' + d.samplingInspectors_Img_url + '" target="_blank"   class="layui-btn layui-btn-xs">预览</a>';
+									return html;
+								}
+							}, {
+								field: 'fullName_Img_url',
+								title: '受检方签名',
+								align: 'center',
+								width: '5.9%',
+								templet: function(d) {
+									var html = '';
+									html += '<a href="' + d.fullName_Img_url + '" target="_blank"   class="layui-btn layui-btn-xs">预览</a>';
+									return html;
+								}
+							}, {
+								field: 'samplingTaskWord_url',
+								title: '抽样单下载',
+								align: 'center',
+								width: '7%',
+								templet: function(d) {
+									return '<a lay-event="download"><i class="layui-icon" style="font-size: 30px;">&#xe601;</i></a>'
+								}
+							}
+						]
+					],
+					where: condition,
+					done: function(res, curr, count) {
+
+						$(".layui-table-body").css("width", $(".show").width());
+						$(".layui-table-header").css("width", $(".show").width());
+						$(".layui-table-tool").css("width", $(".show").width());
+						/*var leftArea = parent.document.getElementById("left"); //left-nav
+						var left_nav = parent.document.getElementById("left-nav"); //left-nav
+						leftArea.onclick = function() {
+							if($('#left_nav').css('left') == '0px') {
+								$(".layui-table-body").css("width", $("#navWidth").width());
+								$(".layui-table-header").css("width", $("#navWidth").width());
+								$(".layui-table-tool").css("width", $("#navWidth").width());
+							} else {
+								console.log($("#navWidth").width());
+								$(".layui-table-body").css("width", $("#navWidth").width());
+								$(".layui-table-header").css("width", $("#navWidth").width());
+								$(".layui-table-tool").css("width", $("#navWidth").width());
+							}
+						}*/
+						isDone(res);
+						layuiRowspan(['samplingTaskNum', 'community', 'userName', 'SamplingTime'], 1); //跨行合并
+					}
+				});
+
+				//监听工具条
+				table.on('tool(demo)', function(obj) {
+
+					var data = obj.data.samplingList;
+					if(obj.event === 'edit') {
+						detailData(data); //展示查看详情表格
+					} else if(obj.event === 'download') {
+						let triggerDelay = 100;
+						let removeDelay = 1000;
+						let url_arr = obj.data.samplingTaskWord_url; //存放多个下载的url
+						url_arr.forEach(function(item, index) {
+							_createIFrame(item, index * triggerDelay, removeDelay);
+						});
+
+						//动态添加iframe，设置src，然后删除
+						function _createIFrame(url, triggerDelay, removeDelay) {
+							setTimeout(function() {
+								var frame = $('<iframe style="display: none;" class="multi-download"></iframe>');
+								frame.attr('src', url);
+								$(document.body).after(frame);
+								setTimeout(function() {
+									frame.remove();
+								}, removeDelay);
+							}, triggerDelay);
+						}
+					}
+				});
+			};
+
+			var execRowspan = function(fieldName, index, flag) {
+				// 1为不冻结的情况，左侧列为冻结的情况
+				let fixedNode = index == "1" ? $(".layui-table-body")[index - 1] : (index == "3" ? $(".layui-table-fixed-r") : $(".layui-table-fixed-l"));
+				// 左侧导航栏不冻结的情况
+				let child = $(fixedNode).find("td");
+				let childFilterArr = [];
+				// 获取data-field属性为fieldName的td
+				for(let i = 0; i < child.length; i++) {
+					if(child[i].getAttribute("data-field") == fieldName) {
+						childFilterArr.push(child[i]);
+					}
+				}
+				// 获取td的个数和种类
+				let childFilterTextObj = {};
+				for(let i = 0; i < childFilterArr.length; i++) {
+					let childText = flag ? childFilterArr[i].innerHTML : childFilterArr[i].textContent;
+					if(childFilterTextObj[childText] == undefined) {
+						childFilterTextObj[childText] = 1;
+					} else {
+						let num = childFilterTextObj[childText];
+						childFilterTextObj[childText] = num * 1 + 1;
+					}
+				}
+				let canRowspan = true;
+				let maxNum; //以前列单元格为基础获取的最大合并数
+				let finalNextIndex; //获取其下第一个不合并单元格的index
+				let finalNextKey; //获取其下第一个不合并单元格的值
+				for(let i = 0; i < childFilterArr.length; i++) {
+					(maxNum > 9000 || !maxNum) && (maxNum = $(childFilterArr[i]).prev().attr("rowspan") && fieldName != "8" ? $(childFilterArr[i]).prev().attr("rowspan") : 9999);
+					let key = flag ? childFilterArr[i].innerHTML : childFilterArr[i].textContent; //获取下一个单元格的值
+					let nextIndex = i + 1;
+					let tdNum = childFilterTextObj[key];
+					let curNum = maxNum < tdNum ? maxNum : tdNum;
+					if(canRowspan) {
+						for(let j = 1; j <= curNum && (i + j < childFilterArr.length);) { //循环获取最终合并数及finalNext的index和key
+							finalNextKey = flag ? childFilterArr[i + j].innerHTML : childFilterArr[i + j].textContent;
+							finalNextIndex = i + j;
+							if((key != finalNextKey && curNum > 1) || maxNum == j) {
+								canRowspan = true;
+								curNum = j;
+								break;
+							}
+							j++;
+							if((i + j) == childFilterArr.length) {
+								finalNextKey = undefined;
+								finalNextIndex = i + j;
+								break;
+							}
+						}
+						childFilterArr[i].setAttribute("rowspan", curNum);
+						if($(childFilterArr[i]).find("div.rowspan").length > 0) { //设置td内的div.rowspan高度适应合并后的高度
+							$(childFilterArr[i]).find("div.rowspan").parent("div.layui-table-cell").addClass("rowspanParent");
+							$(childFilterArr[i]).find("div.layui-table-cell")[0].style.height = curNum * 38 - 10 + "px";
+						}
+						canRowspan = false;
+					} else {
+						childFilterArr[i].style.display = "none";
+					}
+					if(--childFilterTextObj[key] == 0 | --maxNum == 0 | --curNum == 0 | (finalNextKey != undefined && nextIndex == finalNextIndex)) { //||(finalNextKey!=undefined&&key!=finalNextKey)
+						canRowspan = true;
+					}
+				}
+			};
+			//合并数据表格行
+			var layuiRowspan = function(fieldNameTmp, index, flag) {
+				let fieldName = [];
+				if(typeof fieldNameTmp == "string") {
+					fieldName.push(fieldNameTmp);
+				} else {
+					fieldName = fieldName.concat(fieldNameTmp);
+				}
+				for(let i = 0; i < fieldName.length; i++) {
+					execRowspan(fieldName[i], index, flag);
+				}
+			};
+
+			//查询
+			function search() {
+
+				$('#patternName').keyup(function() {
+					var demoReload = $('#patternName'); //获取用户输入的查询条件
+					//在这里执行layui表格数据的重载
+					table.reload('myTab', {
+						page: {
+							curr: 1
+							//重新从第 1 页开始
+						},
+						where: {
+							patternName: demoReload.val(),
+							type: "search"
+						}
+					});
+				});
+			};
+
+			//查询已经导入的数据
+			function detailData(dataAarry) {
+				layer.open({
+					type: 1,
+					title: '采样样品详情',
+					closeBtn: 1,
+					shadeClose: true,
+					area: ['85%', '400px'],
+					content: '<table class="layui-hide" id="testTable" lay-filter="testTable"></table>',
+					success: function(a, b) {
+
+						layui.use(['table'], function() {
+							var $ = layui.$;
+							table = layui.table;
+							table.render({
+								id: 'myTab1',
+								headers: {
+									token: getCookiesList('zhsa')
+								},
+								elem: '#testTable',
+								data: dataAarry,
+								method: 'post',
+								cellMinWidth: 80,
+								page: false,
+								cols: [
+									[ //标题栏
+										{
+											field: 'zizeng',
+											title: '序号',
+											align: 'center',
+											type: 'numbers'
+										}, {
+											field: 'numble',
+											title: '抽样序号',
+											align: 'center',
+											sort: true
+										}, {
+											field: 'type',
+											title: '样品类别',
+											align: 'center',
+											sort: true,
+										}, {
+											field: 'sampleName',
+											title: '样品名称',
+											align: 'center',
+											sort: true,
+										}, {
+											field: 'production',
+											title: '生产单位/供货商',
+											align: 'center',
+											sort: true
+										}, {
+											field: 'date_pd',
+											title: '生产日期',
+											align: 'center',
+											sort: true
+										}, {
+											field: 'specs',
+											title: '型号规格',
+											align: 'center',
+											sort: true,
+										}, {
+											field: 'address',
+											title: '抽样地点',
+											align: 'center',
+											sort: true,
+										}, {
+											field: 'smplingNum',
+											title: '抽样数量',
+											align: 'center',
+											sort: true,
+										}, {
+
+											field: 'smplingIndex',
+											title: '抽样基数',
+											align: 'center',
+											sort: true,
+										}
+									]
+								],
+								done: function(res, curr, count) {
+									isDone(res);
+								}
+							});
+						});
+					}
+				});
+			};
+		</script>
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="css/font.css" />
+		<link rel="stylesheet" type="text/css" href="css/xadmin.css" />
+		<title>采样任务调度</title>
+	</head>
+	<body>
+		<div class="x-body">
+			<!-- 弹出层按钮 -->
+			<div class="clearfix">
+				<xblock>
+					<input class="layui-input x_search" placeholder="请输入信息进行查询" id="patternName" style="width: 250px;">&nbsp;&nbsp;
+					<button class="layui-btn layui-btn-sm" onclick="x_admin_show('新增','./syspage/samplingTaskAdd.html','700','330')" style="margin-top:2px;"><i class="layui-icon">&#xe654;</i>新增</button>
+					<button class="layui-btn layui-btn-sm layui-btn-danger" id="deleteBtn"><i class="layui-icon">&#xe640;</i>删除</button>
+				</xblock>
+			</div>
+			<!-- 查询结果显示 -->
+			<div class="show">
+				<div style="width: 100%;">
+					<table class="layui-hide" id="pageTable" lay-filter="pageTable"></table>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="lib/layui/layui.js"></script>
+		<script type="text/javascript" src="js/xadmin.js"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var table = "";
+			var form = "";
+			var condition = new Object();
+			var url = contextPath + '/SamplingTaskController/batchDelete'; //删除接口URL
+			$(document).ready(function() {
+
+				initLayUi(); //初始化渲染所有的方法
+			});
+
+			function initLayUi() {
+				layui.use(['table'], function() {
+					var $ = layui.$;
+					table = layui.table;
+					condition.patternName = '';
+					initTable(table, condition); //加载表格数据
+					search(); //条件查询
+					deleteInfo(table, url); //删除
+				});
+			};
+
+			//加载已知数据
+			function initTable(table, obj) {
+
+				table.render({
+					id: 'myTab',
+					headers: {
+						token: getCookiesList('zhsa')
+					},
+					elem: '#pageTable',
+					toolbar: '#toolbarDemo',
+					url: contextPath + '/SamplingTaskController/findSamplingTask',
+					method: 'post',
+					cellMinWidth: 80,
+					height: 'full-110',
+					page: true,
+					limit: 30,
+					limits: [30, 50, 100, 200],
+					cols: [
+						[ //标题栏
+							{
+								type: 'checkbox',
+								fixed: 'left',
+							}, {
+								field: 'samplingTaskNum',
+								title: '任务编号',
+								align: 'center',
+								sort: true
+							}, {
+								field: 'userName',
+								title: '采样人',
+								align: 'center',
+								sort: true
+							}, {
+								field: 'community',
+								title: '社区',
+								align: 'center',
+								sort: true
+							}, {
+								field: 'isEnd',
+								title: '是否完成',
+								align: 'center',
+								sort: true,
+								templet: function(d) {
+									var name = '未完成';
+									if(d.isEnd == 0) {
+										return name;
+									} else {
+										return '<a class="layui-btn layui-btn-xs"><i class="layui-icon" style="font-size: 30px;">已完成</i></a>';
+									}
+								}
+							}, {
+								field: 'SamplingTime',
+								title: '采样时间',
+								align: 'center',
+								sort: true,
+							}, {
+								field: 'creator',
+								title: '创建人',
+								align: 'center',
+								sort: true
+							}, {
+								field: 'CreateTime',
+								title: '创建时间',
+								align: 'center',
+								sort: true
+							}
+						]
+					],
+					where: obj,
+					done: function(res) {
+						isDone(res);
+					}
+				});
+			}
+
+			//查询
+			function search() {
+
+				$('#patternName').keyup(function() {
+					var demoReload = $('#patternName'); //获取用户输入的查询条件
+					//在这里执行layui表格数据的重载
+					table.reload('myTab', {
+						page: {
+							curr: 1 //重新从第 1 页开始
+						},
+						where: {
+							patternName: demoReload.val(),
+							type: "search"
+						}
+					});
+				});
+			}
+			//修改
+			function update() {
+				$("#updataBtn").on('click', function(obj) {
+					var checkStatus = table.checkStatus('myTab'); //test即为基础参数id对应的值
+					if(checkStatus.data.length != 1) {
+						layer.msg('请选择一行!');
+						return false;
+					}
+					x_admin_show('修改', './syspage/userInfoModify.html', '700', '350');
+				});
+			}
+		</script>
+	</body>
+</html>

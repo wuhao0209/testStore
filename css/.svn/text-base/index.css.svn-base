@@ -1,0 +1,305 @@
+@charset "utf-8";
+
+/*首页 背景根据图片自适应屏幕大小*/
+
+.mainbox {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-image: url(../images/indexbg4.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+}
+
+
+/* 首页头部样式 Starts */
+
+.mainbox .maintop {
+	width: 100%;
+	height: 64px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.mainbox .maintop>img {
+	width: 100%;
+	height: 58px;
+}
+
+.mainbox .maintop .mainlogo {
+	width: 318px;
+	height: 47px;
+	position: absolute;
+	top: 10px;
+	left: 44px;
+}
+
+.mainbox .maintop .mainlogo>h4 {
+	width: 290px;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 18px;
+	text-align: right;
+	background: url(../images/logos.png) no-repeat center left;
+}
+
+.mainbox .maintop .quick_link {
+	height: 37px;
+	position: absolute;
+	top: 10px;
+	right: 48px;
+}
+
+.mainbox .maintop .quick_link>a {
+	font-size: 13px;
+	color: #fff;
+	line-height: 47px;
+	padding: 0 5px;
+}
+
+.mainbox .maintop .quick_link>a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+
+
+/* 首页头部样式 End */
+
+
+/* 首页中间部分样式 Starts */
+.maincontent .titles {
+	width: 260px;
+	height: 65px;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 43%;
+}
+
+.maincontent .titles>h2 {
+	width: 260px;
+	height: 32px;
+	font-size: 32px;
+	color: #fff;
+	line-height: 45px;
+}
+
+
+/*数据管理*/
+
+.maincontent .datamanage {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	left: 16%;
+	top: 73%;
+	background: url(../images/dataManBg.png) no-repeat center left;
+	background-size: 160px 160px;
+}
+
+.maincontent .datamanage>div {
+	width: 80px;
+	height: 80px;
+	margin: 20px auto 10px;
+}
+
+.maincontent .datamanage>div>a>img {
+	width: 80px;
+	height: 80px;
+	transform: scale(1);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .datamanage>div>a>img:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .datamanage>a {
+	display: block;
+	width: 160px;
+	color: #fff;
+	font-size: 22px;
+	line-height: 24px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.maincontent .datamanage>a:hover {
+	color: #1bb026;
+	/*text-decoration: underline;*/
+}
+
+
+/*分析评价平台*/
+
+.maincontent .analysis {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	left: 22%;
+	top: 33%;
+	background: url(../images/analysBg.png) no-repeat center left;
+	background-size: 160px 160px;
+}
+
+.maincontent .analysis>div {
+	width: 80px;
+	height: 80px;
+	margin: 20px auto 10px;
+}
+
+.maincontent .analysis>div>a>img {
+	width: 80px;
+	height: 80px;
+	transform: scale(1);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .analysis>div>a>img:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .analysis>a {
+	display: block;
+	width: 160px;
+	color: #fff;
+	font-size: 22px;
+	line-height: 24px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.maincontent .analysis>a:hover {
+	color: #1bb026;
+}
+
+
+/*系统管理平台*/
+
+.maincontent .system {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	right: 24%;
+	top: 27%;
+	background: url(../images/systemManBg.png) no-repeat center left;
+	background-size: 160px 160px;
+}
+
+.maincontent .system>div {
+	width: 80px;
+	height: 80px;
+	margin: 20px auto 10px;
+}
+
+.maincontent .system>div>a>img {
+	width: 80px;
+	height: 80px;
+	transform: scale(1);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .system>div>a>img:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .system>a {
+	display: block;
+	width: 160px;
+	color: #fff;
+	font-size: 22px;
+	line-height: 24px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.maincontent .system>a:hover {
+	color: #f00;
+}
+
+
+/*安全监控平台*/
+
+.maincontent .safety {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	right: 5%;
+	top: 59%;
+	background: url(../images/systemManBg.png) no-repeat center left;
+	background-size: 160px 160px;
+}
+
+.maincontent .safety>div {
+	width: 80px;
+	height: 80px;
+	margin: 20px auto 10px;
+}
+
+.maincontent .safety>div>a>img {
+	width: 80px;
+	height: 80px;
+	transform: scale(1);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .safety>div>a>img:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+	transition: all 1s ease 0s;
+}
+
+.maincontent .safety>a {
+	display: block;
+	width: 160px;
+	color: #fff;
+	font-size: 22px;
+	line-height: 24px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.maincontent .safety>a:hover {
+	color: #f00;
+}
+
+
+/* 首页中间部分样式 End */
+
+
+/* 底部版权内容样式 Starts */
+
+.mainbox .indexcopyright {
+	width: 90%;
+	height: 51px;
+	margin: 0 0 0 5%;
+	position: absolute;
+	bottom: 10px;
+	background: url(../images/indexbottombg.png) no-repeat;
+	background-size: 100%;
+}
+
+.mainbox .indexcopyright>div {
+	width: 30%;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	line-height: 48px;
+	margin: 0 auto;
+}
+
+
+/* 底部版权内容样式 End */

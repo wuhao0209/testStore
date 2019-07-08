@@ -1,0 +1,69 @@
+/*系统管理样式开始*/
+@charset "utf-8";
+
+/*顶部系统管理平台按钮控制*/
+.databtn{
+	
+	width: 125px;
+	height: 28px;
+	color: #fff;
+	background: url(../images/data_yuan1.png) no-repeat;
+	position: absolute;
+	left: 340px;
+	top: 20px;
+	text-align: center;
+}
+.databtn>span{
+	
+	color: #007a34;
+	font-size: 16px;
+	line-height: 28px;
+	text-align: center;
+}
+.message{
+	
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	margin-top: 5px;
+	background-color: #f6f7f4;
+	border-bottom: 5px solid #5FB878;
+	
+}
+.message .messagetext>li{
+	
+	margin-left: 18px;
+}
+.message .messagetext .info_one{
+	
+	color: #de6264;
+	font-size: 12px;
+}
+.message .messagetext .info_two{
+	
+	color: #a2a79d;
+	font-size: 12px;
+	line-height: 12px;
+	padding-left: 10px;
+}
+.message .messagetext>li>p{
+	
+	width: 300px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 14px;
+	color: #007a34;
+	letter-spacing: 2px;
+}
+#navColorfirst{
+	
+	color: #0ac61c;
+}
+#navColorsecond{
+	
+	color: #fff;
+}
+#navColorthird{
+	
+	color: #0ac61c;
+}

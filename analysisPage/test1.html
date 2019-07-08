@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>朝阳区 Prism</title>
+    <style>
+        html,
+        body,
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script src="//webapi.amap.com/maps?v=1.4.15&key=07b5e60c8834779baaa7738f3e5e8050&plugin=Map3D,AMap.DistrictSearch"></script>
+<script>
+    var map = new AMap.Map('container', {
+        viewMode: '3D',
+        //pitch: 50,
+        zoom: 11,
+        center: [114.055036,22.52153]
+    });
+
+    // 设置光照
+    map.AmbientLight = new AMap.Lights.AmbientLight([1, 1, 1], 0.5);
+    map.DirectionLight = new AMap.Lights.DirectionLight([0, 0, 1], [1, 1, 1], 1);
+
+    var object3Dlayer = new AMap.Object3DLayer();
+    map.add(object3Dlayer);
+
+    new AMap.DistrictSearch({
+        subdistrict: 0,   //返回下一级行政区
+        extensions: 'all',  //返回行政区边界坐标组等具体信息
+        level: 'country'  //查询行政级别为 市
+    }).search('福田区', function (status, result) {
+    	console.log(status);
+    	console.log(result);
+        var bounds = result.districtList[0].boundaries;
+        console.log(bounds);
+        var height = 5000;
+        var color = '#0088ffcc'; // rgba
+        var prism = new AMap.Object3D.Prism({
+            path: bounds,
+            height: height,
+            color: color
+        });
+
+        prism.transparent = true;
+        object3Dlayer.add(prism);
+
+        var text = new AMap.Text({
+            text: result.districtList[0].name + '</br>(' + result.districtList[0].adcode + ')',
+            verticalAlign: 'bottom',
+            position: [114.055036,22.52153],
+            height: 5000,
+            style: {
+                'background-color': 'transparent',
+                '-webkit-text-stroke': 'red',
+                '-webkit-text-stroke-width': '0.5px',
+                'text-align': 'center',
+                'border': 'none',
+                'color': 'white',
+                'font-size': '24px',
+                'font-weight': 600
+            }
+        });
+
+        text.setMap(map);
+    });
+
+</script>
+</body>
+</html>

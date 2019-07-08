@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<style>
+			#map1 {
+				float: left;
+				width: 38%;
+				height: 500px;
+				margin: 50px 8% 0px 8%;
+			}
+			
+			#map2 {
+				float: left;
+				width: 38%;
+				height: 500px;
+				margin: 50px 8% 0px 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="map1"></div>
+		<div id="map2"></div>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=07b5e60c8834779baaa7738f3e5e8050"></script>
+
+		<script>
+			//初始化地图插件
+			window.onload = function() {
+				//地图一
+				var map1 = new AMap.Map('map1', {
+					resizeEnable: true, //是否监控地图容器尺寸变化
+					zooms: [1, 20], //设置地图级别范围
+					zoom: 13,
+					//center: [116.397428, 39.90923],//地图显示中心点坐标，如果没有center属性，则会定位到你当前所处的位置
+					viewMode: '3D', //使用3D视图
+				});
+
+				//实时路况图层
+				var trafficLayer = new AMap.TileLayer.Traffic({
+					zIndex: 1
+				});
+				//添加图层到地图
+				map1.add(trafficLayer);
+
+				//创建信息窗体
+				var marker1 = new AMap.Marker({
+					position: [116.39, 39.9] //位置
+				})
+				//添加到地图
+				var infoWindow = new AMap.InfoWindow({
+					isCustom: true, //使用自定义窗体
+					content: '<div>信息窗体</div>', //信息窗体的内容可以是任意html片段
+					offset: new AMap.Pixel(16, -45)
+				});
+				var onMarkerClick = function(e) {
+					infoWindow.open(map, e.target.getPosition()); //打开信息窗体
+					//e.target就是被点击的Marker
+				}
+				map1.add(marker1);
+				//移除标记
+				//map1.remove(marker1);
+				//创建信息窗体
+				marker1.on('click', onMarkerClick); //绑定click事件
+
+				//绘制圆Circle、折线 Polyline、多边形 Polygon、椭圆 Ellipse、矩形 Rectangle、贝瑟尔曲线 BesizerCurve等矢量图形
+				var lineArr = [
+					[116.368904, 39.913423],
+					[116.382122, 39.901176],
+					[116.387271, 39.912501],
+					[116.398258, 39.904600]
+				];
+				var polyline = new AMap.Polyline({
+					path: lineArr, //设置线覆盖物路径
+					strokeColor: "#3366FF", //线颜色
+					strokeWeight: 5, //线宽
+					strokeStyle: "solid", //线样式
+				});
+				map1.add(polyline);
+
+				//地图二
+				var map2 = new AMap.Map('map2', {
+					zooms: [6, 20], //设置地图级别范围
+					zoom: 13,
+					//center: [116.397428, 39.90923],//地图显示中心点坐标，如果没有center属性，则会定位到你当前所处的位置
+					viewMode: '3D', //使用3D视图
+					layers: [ //使用多个图层
+						new AMap.TileLayer.Satellite(),
+						//new AMap.TileLayer.RoadNet()
+					],
+				});
+
+			}
+		</script>
+	</body>
+
+</html>

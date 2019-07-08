@@ -1,0 +1,235 @@
+	@charset "utf-8";
+	/*登录页面 响应式适应1366*768屏幕大小布局样式 Starts */
+	/*媒体查询 当屏幕宽度是1366的分辨率下时调用下面的css代码*/
+	
+	@media screen and (max-width: 1366px) {
+		.loginbox .content .userlogin {
+			width: 300px;
+			height: 300px;
+			position: absolute;
+			left: 36%;
+			top: 57%;
+		}
+		.loginbox .content .login>li .usercode {
+			width: 200px;
+		}
+		.loginbox .content .login>li .password {
+			width: 200px;
+		}
+		.loginbox .content .green_btn {
+			width: 245px;
+		}
+		/*登录左侧底部分内容  Starts*/
+		.loginbox .loginbottom {
+			height: 132px;
+			position: absolute;
+			top: 82%;
+			left: 20px;
+		}
+		.loginbox .loginbottom .bottomlist>li {
+			width: 75px;
+			height: 83px;
+			float: left;
+		}
+		.loginbottom .bottomlist .list1 {
+			background: url(../images/datamanage@1366.png) no-repeat;
+		}
+		.loginbottom .bottomlist .list2 {
+			margin-left: 5px;
+			background: url(../images/evaluate@1366.png) no-repeat;
+		}
+		.loginbottom .bottomlist .list3 {
+			margin-left: 5px;
+			background: url(../images/datamanage@1366.png) no-repeat;
+		}
+		.loginbottom .bottomlist .list4 {
+			margin-left: 5px;
+			background: url(../images/datamanage@1366.png) no-repeat;
+		}
+	}
+	/*登录页面 响应式适应1366*768屏幕大小布局样式 End */
+	/*首页页面 响应式适应1366*768屏幕大小布局样式 Stars */
+	
+	@media screen and (max-width: 1366px) {
+		/*数据管理*/
+		.maincontent .datamanage {
+			width: 130px;
+			height: 130px;
+			position: absolute;
+			left: 12%;
+			top: 68%;
+			background: url(../images/dataManBg.png) no-repeat center left;
+			background-size: 130px 130px;
+		}
+		.maincontent .datamanage>div {
+			width: 60px;
+			height: 60px;
+			margin: 16px auto 10px;
+		}
+		.maincontent .datamanage>div>a>img {
+			width: 60px;
+			height: 60px;
+			transform: scale(1);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .datamanage>div>a>img:hover {
+			cursor: pointer;
+			transform: scale(1.2);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .datamanage>a {
+			display: block;
+			width: 130px;
+			color: #fff;
+			font-size: 22px;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.maincontent .datamanage>a:hover {
+			color: #1bb026;
+			/*text-decoration: underline;*/
+		}
+		/*分析评价平台*/
+		.maincontent .analysis {
+			width: 130px;
+			height: 130px;
+			position: absolute;
+			left: 20.5%;
+			top: 35%;
+			background: url(../images/analysBg.png) no-repeat center left;
+			background-size: 130px 130px;
+		}
+		.maincontent .analysis>div {
+			width: 60px;
+			height: 60px;
+			margin: 16px auto 10px;
+		}
+		.maincontent .analysis>div>a>img {
+			width: 60px;
+			height: 60px;
+			transform: scale(1);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .analysis>div>a>img:hover {
+			cursor: pointer;
+			transform: scale(1.2);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .analysis>a {
+			display: block;
+			width: 130px;
+			color: #fff;
+			font-size: 22px;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.maincontent .analysis>a:hover {
+			color: #1bb026;
+		}
+		/*系统管理平台*/
+		.maincontent .system {
+			width: 130px;
+			height: 130px;
+			position: absolute;
+			right: 22%;
+			top: 26%;
+			background: url(../images/systemManBg.png) no-repeat center left;
+			background-size: 130px 130px;
+		}
+		.maincontent .system>div {
+			width: 60px;
+			height: 60px;
+			margin: 16px auto 10px;
+		}
+		.maincontent .system>div>a>img {
+			width: 60px;
+			height: 60px;
+			transform: scale(1);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .system>div>a>img:hover {
+			cursor: pointer;
+			transform: scale(1.2);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .system>a {
+			display: block;
+			width: 130px;
+			color: #fff;
+			font-size: 22px;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.maincontent .system>a:hover {
+			color: #f00;
+		}
+		/*安全监控平台*/
+		.maincontent .safety {
+			width: 130px;
+			height: 130px;
+			position: absolute;
+			right: 5%;
+			top: 54%;
+			background: url(../images/systemManBg.png) no-repeat center left;
+			background-size: 130px 130px;
+		}
+		.maincontent .safety>div {
+			width: 60px;
+			height: 60px;
+			margin: 16px auto 10px;
+		}
+		.maincontent .safety>div>a>img {
+			width: 60px;
+			height: 60px;
+			transform: scale(1);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .safety>div>a>img:hover {
+			cursor: pointer;
+			transform: scale(1.2);
+			transition: all 1s ease 0s;
+		}
+		.maincontent .safety>a {
+			display: block;
+			width: 130px;
+			color: #fff;
+			font-size: 22px;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.maincontent .safety>a:hover {
+			color: #f00;
+		}
+		/*网页中间标题文字*/
+		.maincontent .titles {
+			top: 50%;
+			left: 41%;
+		}
+		/* 底部版权内容样式 Starts */
+		.mainbox .indexcopyright {
+			width: 90%;
+			height: 51px;
+			margin: 0 0 0 5%;
+			position: absolute;
+			bottom: 10px;
+			background: url(../images/indexbottombg.png) no-repeat;
+			background-size: 100%;
+		}
+		.mainbox .indexcopyright>div {
+			width: 30%;
+			color: #fff;
+			text-align: center;
+			font-size: 12px;
+			line-height: 38px;
+			margin: 0 auto;
+		}
+	}
+	/*首页页面 响应式适应1366*768屏幕大小布局样式 End */

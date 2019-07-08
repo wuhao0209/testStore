@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="css/cssreset.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="lib/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="css/dataManageIndex.css" />
+		<title>智慧食安大数据线上监控平台--数据管理系统首页</title>
+		<style type="text/css">
+			input::-webkit-input-placeholder {
+				color: rgba(93, 255, 13, 0.68);
+				text-align: right;
+			}
+			
+			.layui-form-select .layui-input {
+				height: 30px;
+				line-height: 30px;
+				color: rgba(93, 255, 13, 0.68);
+				background-color: #085937;
+				border: none;
+			}
+			
+			.layui-select-title {
+				background-color: #085937;
+			}
+			
+			.layui-form-select dl {
+				background-color: #085937;
+				border: none;
+			}
+			
+			.layui-form-select dl dd:hover {
+				background-color: #00bfb7;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-layout layui-layout-admin">
+			<!--网页最顶部 Statrs-->
+			<div class="layui-header header header-demo" style="background-color: #062d34;border-bottom: 1px solid #085937;">
+				<div class="layui-main" style="margin: 0;">
+					<a class="titles" href="#">智慧食安大数据线上监控平台</a>
+					<ul class="layui-nav">
+						<li class="layui-nav-item" style="line-height:45px;">
+							<a href="javascript:;">管理员</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="./login.html">退出</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item x-index">
+							<a href="index.html">返回首页</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--网页最顶部 End-->
+			<div class="layui-tab layui-tab-card" style="margin: 0;border:1px solid #142037;">
+				<ul class="layui-tab-title" style="background-color:#062d34;border-bottom:#142037;padding-left: 6px;">
+					<li class="layui-this" style="color:#fff;">场所分布</li>
+				</ul>
+				<div class="layui-tab-content" style="padding: 0;">
+					<div class="layui-tab-item layui-show">
+						<!--网页中部 Statrs-->
+						<div class="x-body">
+							<ul class="mainlist clearfix">
+								<li class="leftbox">
+									<!--数据表格显示 Statrs-->
+									<div class="datachart">
+										<div class="layui-card">
+											<div class="layui-card-body" style="padding: 0; background-color: #F6F8F3;">
+												<div class="layui-card clearfix" style="background-color: #0b4250;">
+													<div class="summary-header layui-card-header scrolltable-header clearfix">
+														<p style="width: 30%; float: left;">样品类别统计</p>
+														<form class="layui-form" style="width: 50%;float: right;">
+															<div class="layui-form-item" style="margin-bottom: 0;">
+																<div class="layui-input-inline" style="width: 35%; margin-top: 4px;">
+																	<input type="text" placeholder="请选择年" id="choiceYear" autocomplete="off" class="layui-input" style="height: 30px; border:none;line-height: 30px;color:rgba(93, 255, 13, 0.68);text-align:right;background-color: #085937;">
+																</div>
+																<div class="layui-input-inline" style="width: 53%;margin-top: 4px;">
+																	<select name="quarter" id="quarter" lay-filter="quarter">
+																		<option value="0">选择季度</option>
+																		<option value="1">第1季度</option>
+																		<option value="2">第2季度</option>
+																		<option value="3">第3季度</option>
+																		<option value="4">第4季度</option>
+																	</select>
+																</div>
+															</div>
+														</form>
+													</div>
+													<div class="layui-card-body" style="padding: 0;">
+														<div id="lineBarChart" style="height: 330px;">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--抽样情况统计数据表格显示 Statrs-->
+									<div class="datachart">
+										<div class="layui-card">
+											<div class="layui-card-body" style="padding: 0; background-color: #F6F8F3;">
+												<div class="scrolltable">
+													<div class="layui-card clearfix">
+														<div class="layui-card-header scrolltable-header clearfix" style="text-align: left;">
+															<p style="float: left;">样品抽样情况统计</p>
+															<p class="screenText">
+																<a style="color: rgba(93, 255, 13, 0.68);" href="./monitorPage/bigScreen.html" id="text2" target="_blank" data-name="样品抽样详情显示">详情</a>
+															</p>
+														</div>
+														<div class="layui-card-body" style="padding: 0;">
+															<div class="tablebox">
+																<div class="tbl-header-sample">
+																	<table border="0" cellspacing="0" cellpadding="0">
+																		<thead>
+																			<tr>
+																				<th>商铺名称</th>
+																				<th>抽样数量</th>
+																				<th>合格率</th>
+																				<th>所属社区</th>
+																				<th>采样时间</th>
+																			</tr>
+																		</thead>
+																		<tbody style="opacity:0;"></tbody>
+																	</table>
+																</div>
+																<div class="tbl-body-sample">
+																	<table border="0" cellspacing="0" cellpadding="0">
+																		<thead>
+																			<tr>
+																				<th>商铺名称</th>
+																				<th>抽样数量</th>
+																				<th>合格率</th>
+																				<th>所属社区</th>
+																				<th>采样时间</th>
+																			</tr>
+																		</thead>
+																		<tbody></tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--数据表格显示 End-->
+									<!--样品类别统计 Starts-->
+									<div class="summary">
+										<div class="scrolltable">
+											<div class="layui-card">
+												<div class="layui-card-header scrolltable-header clearfix" style="text-align: left;">
+													<p style="width: 30%; float: left;">不合格样品统计</p>
+													<p class="screenText">
+														<a style="color: rgba(93, 255, 13, 0.68);" href="./monitorPage/bigScreen.html" id="text1" target="_blank" data-name="不合格样品详情显示">详情</a>
+													</p>
+												</div>
+												<div class="layui-card-body" style="padding: 0;">
+													<div class="tablebox">
+														<div class="tbl-header">
+															<table border="0" cellspacing="0" cellpadding="0">
+																<thead>
+																	<tr>
+																		<th>样品名称</th>
+																		<th>检测商铺</th>
+																		<th>社区</th>
+																		<th>采样时间</th>
+																		<th>处理结果</th>
+																	</tr>
+																</thead>
+																<tbody style="opacity:0;"></tbody>
+															</table>
+														</div>
+														<div class="tbl-body">
+															<table border="0" cellspacing="0" cellpadding="0">
+																<thead>
+																	<tr>
+																		<th>样品名称</th>
+																		<th>检测商铺</th>
+																		<th>社区</th>
+																		<th>采样时间</th>
+																		<th>处理结果</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--样品类别统计 End-->
+								</li>
+								<li class="middlebox">
+									<!--数据地图显示 Statrs-->
+									<div class="datachart">
+										<div id="mapchart" style="height:990px;"></div>
+										<div class="info" id="info" style="display: none;"></div>
+									</div>
+									<!--数据地图显示 End-->
+								</li>
+								<li class="rightbox">
+									<!--数据饼图显示 Statrs-->
+									<div class="datachart">
+										<div class="layui-card">
+											<div class="layui-card-header piechart-header">巡查情况统计</div>
+											<div class="layui-card-body" style="padding: 0; background-color: #0b4250;">
+												<div id="piechart" style="height:300px;"></div>
+											</div>
+										</div>
+									</div>
+									<div class="datachart">
+										<div class="layui-card">
+											<div class="layui-card-body" style="padding: 0; background-color: #F6F8F3;">
+												<div class="scrolltable">
+													<div class="layui-card">
+														<div class="layui-card-header scrolltable-header" style="text-align: left;">吉华街道辖区内各抽样地点月合格率统计
+														</div>
+														<div class="layui-card-body" style="padding: 0;">
+															<div class="slide-title">
+																<span>抽样地点</span>
+																<span>抽样数量(批)</span>
+																<span>不合格(批)</span>
+																<span>合格率(%)</span>
+																<span>抽样日期</span>
+															</div>
+															<div class="slide-container">
+																<ul class="slide-list js-slide-list">
+																	<li class="odd">
+																		<span>华润万家超市</span><span>9</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="even">
+																		<span>下水径市场</span><span>25</span><span>1</span><span>96</span><span>2018.5.5</span>
+																	</li>
+																	<li class="odd">
+																		<span>四季丰超市</span><span>27</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="even">
+																		<span>万胜易购商场</span><span>26</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="odd">
+																		<span>大靓市场</span><span>18</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="even">
+																		<span>上水径市场</span><span>21</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="odd">
+																		<span>大靓市场</span><span>18</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="even">
+																		<span>上水径市场</span><span>21</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																	<li class="even">
+																		<span>上水径市场</span><span>21</span><span>0</span><span>100</span><span>2018.5.5</span>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--数据饼图显示 End-->
+									<!--数据表格显示 End-->
+									<!--数据折线图显示 Statrs-->
+									<div class="datachart">
+										<div class="layui-card">
+											<div class="layui-card-header linechart-header">巡查建议</div>
+											<div class="layui-card-body" style="padding: 0; background-color: #0b4250;">
+												<div id="linechart" style="height:285px;"></div>
+											</div>
+										</div>
+									</div>
+									<!--数据折线图显示 End-->
+								</li>
+							</ul>
+						</div>
+						<!--网页中部 End-->
+					</div>
+					<div class="layui-tab-item">2</div>
+				</div>
+			</div>
+		</div>
+		<!--引入高德地图申请的key -->
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=032afd0db0b959043be62870f958e68d&plugin=AMap.Autocomplete"></script>
+		<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="lib/layui/layui.js"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script src="js/opp.js" type="text/javascript"></script>
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+		<script src="js/macarons.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var date = new Date; //实例化时间对象
+				var year = date.getFullYear(); //获取当前年
+				sampleCategoryStatistics('', year + '-0'); //样品类别统计(不点击地图的情况下 默认为空和获取当前年)
+				pieChartFun(); //饼形图
+				lineChartFun(); //折线图
+				testMapChartFun(); //地图展示
+				unqualifiedSampleTable(''); //不合格样品统计情况
+				samplingStatistics(); // 抽样情况统计接口
+			});
+
+			layui.use(['form', 'laydate'], function() {
+				var form = layui.form;
+				var laydate = layui.laydate;
+				laydate.render({
+					elem: '#choiceYear',
+					type: 'year',
+					trigger: 'click', //采用click弹出
+					value: new Date(), //控件默认显示当前年
+					max: 1,
+					position: 'fixed',
+					btns: ['confirm'],
+					done: function(date) {
+
+						sampleCategoryStatistics('', date + '-' + $('#quarter').val());
+					}
+				});
+
+				//监听季节的选择变化 
+				form.on('select(quarter)', function(data) {
+					sampleCategoryStatistics('', $('#choiceYear').val() + '-' + data.value);
+				});
+			});
+
+			//非空判断
+			function isNull(s) {
+				if(s == null || typeof(s) == "undefined" || s == "") return true;
+				return false;
+			};
+
+			//样品类别统计
+			function sampleCategoryStatistics(patternName, yearAndQuarter) {
+
+				var url = contextPath + '/QuickCheckController/SampleCategoryStatistics'; //请求接口路径
+				//传参对象
+				var paramObj = {
+					patternName: patternName,
+					yearAndQuarter: yearAndQuarter
+				};
+
+				//调用封装的ajax
+				$.axios(url, paramObj, function(res) {
+					var legendData; //图例
+					var xData; //x轴
+					var data = res.data; //接口数据
+					var seriesData = []; //seriesData数据
+					for(var i = 0; i < data.length; i++) {
+						for(var key in data[i]) {
+							if(key == "data") {
+								var obj = new Object();
+								if(data[i]["data"].length == 0) {
+									$("#lineBarChart").html("<div style='color:#fff;text-align:center;'>暂无数据</div>");
+									return false;
+								}
+								if(data[i]["type"] == "line") {
+									obj.symbolSize = 7;
+									obj.symbol = 'circle';
+								}
+								if(data[i]["name"] == "阴性") {
+									obj.barMaxWidth = 35;
+									obj.barGap = "10%";
+									obj.itemStyle = {
+										"normal": {
+											"color": "rgba(0,191,183,1)",
+											"barBorderRadius": 0,
+											"label": {
+												"show": true,
+												"position": "insideTop",
+												formatter: function(p) {
+													return p.value > 0 ? (p.value) : '';
+												}
+											}
+										}
+									}
+								}
+								if(data[i]["name"] == "阳性") {
+									obj.itemStyle = {
+										"normal": {
+											"color": "rgba(255,144,128,1)",
+											"label": {
+												"show": true,
+												"position": "top",
+												formatter: function(p) {
+													return p.value > 0 ? (p.value) : '';
+												}
+											}
+										}
+									}
+								}
+
+								if(data[i]["type"] == "bar") {
+									obj.stack = "总量";
+								}
+								obj.name = data[i]["name"];
+								obj.data = data[i]["data"];
+								obj.type = data[i]["type"];
+								obj.smooth = false;
+								seriesData.push(obj);
+
+							} else if(key == "xAxis") {
+								xData = data[i]["xAxis"];
+							} else if(key == "legend") {
+								legendData = data[i]["legend"];
+							}
+						}
+					}
+					var xDatas = []; //x轴数据加上'月'
+					if(xData.length > 0) {
+						for(var j = 0; j < xData.length; j++) {
+
+							xDatas.push(xData[j] + '月');
+						}
+					}
+					lineBarChart(legendData, xDatas, seriesData);
+				});
+			}
+			var myChart; //定义全局的myChart变量便于下面的重绘
+			function lineBarChart(legendData, xData, seriesData) {
+				$('#lineBarChart').html('');
+				if(myChart != null && myChart != "" && myChart != undefined) {
+					myChart.dispose(); //销毁echart实例
+				}
+				myChart = echarts.init(document.getElementById("lineBarChart"), e_macarons);
+				option = {
+					backgroundColor: "#344b58",
+					"tooltip": {
+						"trigger": "axis",
+						"axisPointer": {
+							"type": "shadow",
+							textStyle: {
+								color: "#fff"
+							}
+						},
+					},
+					"grid": {
+						"borderWidth": 0,
+						"top": 30,
+						"bottom": 30,
+						textStyle: {
+							color: "#fff"
+						}
+					},
+					"legend": {
+						"data": legendData,
+						textStyle: {
+							color: '#fff',
+							fontSize: 10
+						}
+					},
+					"calculable": true,
+					"xAxis": [{
+						"type": "category",
+						"axisLine": {
+							lineStyle: {
+								color: '#90979c'
+							}
+						},
+						"splitLine": {
+							"show": false
+						},
+						"axisTick": {
+							"show": false
+						},
+						"splitArea": {
+							"show": false
+						},
+						"axisLabel": {
+							"interval": 0,
+						},
+						"data": xData,
+					}],
+					"yAxis": [{
+						"type": "value",
+						"splitLine": {
+							"show": false
+						},
+						"axisLine": {
+							lineStyle: {
+								color: '#90979c'
+							}
+						},
+						"axisTick": {
+							"show": false
+						},
+						"axisLabel": {
+							"interval": 0,
+
+						},
+						"splitArea": {
+							"show": false
+						},
+
+					}],
+					dataZoom: [{
+						type: 'inside'
+					}],
+					"series": seriesData
+				}
+				myChart.setOption(option); // 使用刚指定的配置项和数据显示图表。
+				var zoomSize = 6;
+				myChart.on('click', function(params) {
+					myChart.dispatchAction({
+						type: 'dataZoom',
+						startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+						endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+					});
+				});
+			}
+
+			function pieChartFun() {
+				var myChart = echarts.init(document.getElementById("piechart"), 'macarons');
+				option = {
+					title: {
+						left: 'center'
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+					},
+					legend: {
+						bottom: 10,
+						left: 'center',
+						textStyle: {
+							color: '#fff'
+						},
+						data: ['瓜果', '蔬菜', '畜禽', '海鲜', '熟食']
+					},
+					series: [{
+						type: 'pie',
+						radius: '65%',
+						center: ['50%', '45%'],
+						selectedMode: 'single',
+						data: [{
+								value: 1548,
+								name: '瓜果',
+
+							},
+							{
+								value: 535,
+								name: '蔬菜'
+							},
+							{
+								value: 510,
+								name: '畜禽'
+							},
+							{
+								value: 634,
+								name: '海鲜'
+							},
+							{
+								value: 735,
+								name: '熟食'
+							}
+						],
+						itemStyle: {
+							emphasis: {
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						}
+					}]
+				};
+				myChart.setOption(option);
+			};
+
+			function lineChartFun() {
+				var myChart = echarts.init(document.getElementById("linechart"), 'macarons');
+				option = {
+					tooltip: {
+						trigger: 'axis',
+						axisPointer: {
+							type: 'cross',
+							crossStyle: {
+								color: '#fff'
+							}
+						}
+					},
+					legend: {
+						padding: [20, 10, 10, 10],
+						data: ['蒸发量', '降水量', '平均温度'],
+						textStyle: {
+							color: '#fff'
+						},
+					},
+					grid: {
+						//top: '20%',
+						left: '13%',
+						//right: '4%',
+						bottom: '12%',
+						//containLabel: true,
+					},
+					xAxis: [{
+						type: 'category',
+						data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+						axisPointer: {
+							type: 'shadow'
+						},
+						splitLine: {
+							show: false
+						}, //去除网格线
+						splitArea: {
+							show: false
+						}, //保留网格区域
+						axisLine: {
+							lineStyle: {
+								type: 'solid',
+								color: '#fff', //左边线的颜色
+								width: '2' //坐标线的宽度
+							}
+						},
+						axisLabel: {
+							textStyle: {
+								color: '#fff', //坐标值得具体的颜色
+
+							}
+						}
+					}],
+					yAxis: [{
+							type: 'value',
+							name: '水量',
+							min: 0,
+							max: 250,
+							interval: 50,
+							axisLabel: {
+								formatter: '{value} ml'
+							},
+							splitLine: {
+								show: false
+							}, //去除网格线
+							splitArea: {
+								show: false
+							}, //保留网格区域
+							axisLine: {
+								lineStyle: {
+									type: 'solid',
+									color: '#fff', //左边线的颜色
+									width: '2' //坐标线的宽度
+								}
+							},
+							axisLabel: {
+								textStyle: {
+									color: '#fff', //坐标值得具体的颜色
+
+								}
+							}
+						},
+						{
+							type: 'value',
+							name: '温度',
+							min: 0,
+							max: 25,
+							interval: 5,
+							axisLabel: {
+								formatter: '{value} °C'
+							},
+							axisLine: {
+								lineStyle: {
+									type: 'solid',
+									color: '#fff', //左边线的颜色
+									width: '2' //坐标线的宽度
+								}
+							},
+							axisLabel: {
+								textStyle: {
+									color: '#fff', //坐标值得具体的颜色
+
+								}
+							}
+						},
+
+					],
+					series: [{
+							name: '蒸发量',
+							type: 'bar',
+							data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+						},
+						{
+							name: '降水量',
+							type: 'bar',
+							data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+						},
+						{
+							name: '平均温度',
+							type: 'line',
+							yAxisIndex: 1,
+							data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+						}
+					]
+				};
+				myChart.setOption(option); // 使用刚指定的配置项和数据显示图表。
+			};
+
+			//中间地图显示
+			function testMapChartFun() {
+				var polygon = new AMap.Polygon()
+				//初始化加载地图时，若center及level属性缺省，地图默认显示用户当前城市范围
+				var mapMain = new AMap.Map('mapchart', {
+					resizeEnable: true,
+					center: [114.110802, 22.623541],
+					zoom: 13
+				});
+				showMapArea(mapMain, 13);
+				showSamplingAddress(mapMain);
+				// 地图进行缩放的时候监听该函数
+				AMap.event.addListener(mapMain, 'zoomend', function() {
+
+					level = mapMain.getZoom();
+					mapMain.clearMap();
+					showMapArea(mapMain, level);
+					showSamplingAddress(mapMain);
+				});
+			};
+
+			function showMapArea(mapMain, level) {
+				var mapObj;
+				if(level < 16) {
+					mapObj = area;
+				} else {
+
+					mapObj = opp;
+				}
+				for(var o in mapObj) {
+					for(var key in mapObj[o]) {
+						//遍历json对象获取定义的经纬度来绘制多边形区域
+						polygon = new AMap.Polygon({
+							path: mapObj[o]["position"],
+							strokeColor: mapObj[o]["color"],
+							strokeWeight: 6,
+							strokeOpacity: 0.05,
+							fillOpacity: 0.2,
+							fillColor: mapObj[o]["color"],
+							zIndex: 50,
+							extData: mapObj[o]["name"],
+						});
+						mapMain.add(polygon);
+						var villageCity = ""; //获取城中村的变量
+						//给绘制的多边形区域添加click点击事件并显示弹窗内容
+						polygon.on('click', function(e) {
+							var lnglat = [];
+							lnglat.push(e.lnglat.getLng());
+							lnglat.push(e.lnglat.getLat());
+							var point = lnglat;
+							var isPointInRing = AMap.GeometryUtil.isPointInRing(point, e.target.F.path);
+							villageCity = isPointInRing ? e.target.F.extData : 0;
+							$('#info').show(); //点击地图时显示弹窗
+							loadInfoData(villageCity, level); //地图弹窗内容显示 
+							unqualifiedSampleTable(villageCity); //不合格样品抽样统计情况
+							sampleCategoryStatistics(villageCity, $('#choiceYear').val() + '-' + $('#quarter').val()); //样品类别统计
+						});
+						var features = [];
+						features.push('bg');
+						features.push('point');
+						mapMain.setMapStyle('amap://styles/blue');
+						mapMain.setFeatures(features);
+					}
+				}
+			};
+
+			//加载地图弹窗信息数据
+			function loadInfoData(villageCity, level) {
+				var url = contextPath + '/QuickCheckController/QuickInspectionMonitoring'; //请求接口路径
+				var param = {
+
+					"patternName": villageCity
+				};
+				//调用封装的ajax
+				$.axios(url, param, function(res) {
+					if(res.code == 0) {
+						var ypObj = null;
+						var htmlStr = '<div class="info-title">' + villageCity + '</div><div class="info-close" id="info-close"><i class="layui-icon layui-icon-close-fill" style="font-size: 25px; color: #f60;"></i></div>';
+						var ypStr = '<ul class="info-content-two clearfix" id="info-content-two" style="border-bottom:none;">'; // 拼接样品
+						htmlStr += '<div class="info-content"><ul class="info-content-one clearfix">';
+						for(var v in res.data) {
+							if(v != "样品分布") {
+
+								if(v == "不合格样品") {
+
+									htmlStr += '<li><label>' + v + ':' + '</label><span style="color:#DC143C;">' + res.data[v] + '</span></li>';
+								} else {
+
+									htmlStr += '<li><label>' + v + ':' + '</label><span>' + res.data[v] + '</span></li>';
+								}
+
+							} else {
+								ypObj = res.data["样品分布"][0];
+								for(var o in ypObj) {
+									ypStr += '<li><label>' + o + ':' + '</label><span>' + ypObj[o] + '</span></li>';
+								}
+								ypStr += '</ul>';
+								htmlStr += '</ul>';
+								htmlStr += ypStr;
+							}
+						}
+						if(level < 14) {
+							$('#info').css('height', '319px');
+							htmlStr += '<div class="info-bottom"><button type="button" class="layui-btn layui-btn-fluid">采样派单</button></div>';
+						} else {
+
+							$('#info').css('height', '281px');
+						}
+						//ypStr += '</li></ul"><div class="yangpin">样品分布</div></div>';
+						$('#info').html(htmlStr); //渲染html标签
+					}
+				});
+
+				//这里是动态渲染的html标签所以使用绑定未来的事件方法控制
+				$(document).on('click', '#info-close', function() {
+
+					$('#info').hide(); //点击隐藏弹窗
+				});
+
+			};
+
+			//加载地图采样点
+			function showSamplingAddress(map) {
+
+				var url = contextPath + '/QuickCheckController/findSamplingAddress'; //请求接口路径
+				//调用封装的ajax
+				$.axios(url, '', function(res) {
+					var positionarr = [];
+					var shopName = "";
+					//定位采样点到地图上
+					for_a: for(var j = 0; j < res.data.length; j++) {
+						if(res.data[j].ShopSignName == shopName) {
+							continue for_a;
+						}
+						if(res.data[j].Position != null) {
+							var a = 'border:2px solid #00FF00';
+							var b = 'border:6px solid #00FF00';
+
+							if(res.data[j].detectionResult == "阳性") {
+								if(res.data[j].count == 1) {
+									a = 'border:2px solid #FF6600';
+									b = 'border:6px solid #FF6600';
+								} else if(res.data[j].count > 1) {
+
+									a = 'border:2px solid #FF0000';
+									b = 'border:6px solid #FF0000';
+								}
+								shopName = res.data[j].ShopSignName;
+							} else {
+
+							}
+							positionarr = res.data[j].Position;
+							// 创建纯文本标记
+							var text = new AMap.Text({
+								text: '<div class="container"><span style="display:none">' + res.data[j].ShopSignName + '</span><div style="' + a + '" class="dot"></div><div style="' + b + '" class="pulse"></div></div>',
+								anchor: 'center', // 设置文本标记锚点
+								draggable: false,
+								style: {
+									'background': 'rgba(0,0,0,0)',
+									'border': 'none'
+								},
+								extData: {
+									AddressOfInspectedUnit: res.data[j].AddressOfInspectedUnit,
+									Community: res.data[j].Community,
+									VillageInCity: res.data[j].VillageInCity,
+									ShopSignName: res.data[j].ShopSignName
+								},
+								position: positionarr
+							});
+							text.setMap(map);
+							text.on('click', markerClick);
+						}
+					}
+				});
+
+				function markerClick(e) {
+					$('#info').show(); //点击地图时显示弹窗
+					$('#info').css('height', '300px');
+					var url = contextPath + '/QuickCheckController/QuickInspectionMonitoringByShopSignName'; //请求接口路径
+					$.axios(url, e.target.F.extData, function(res) {
+						if(res.code == 0) {
+							var data = res.data;
+							var ypObj = null;
+							var newDate = ""; //当前时间
+							var htmlStr = '<div class="info-title">' + e.target.F.extData.ShopSignName + '</div><div class="info-close" id="info-close"><i class="layui-icon layui-icon-close-fill" style="font-size: 25px; color: #41719c;"></i></div>';
+							var ypStr = '<ul class="info-content-two clearfix" id="info-content-two" style="border-bottom:none;">'; // 拼接样品
+							htmlStr += '<div class="info-content"><ul class="info-content-one clearfix">';
+							for(var v in res.data) {
+								if(v.indexOf("最新抽样信息") != -1) {
+									ypObj = res.data[v];
+									ypStr += '<h4>' + v + '</h4>';
+									for(var o in ypObj) {
+										if(o == "检测样品") {
+											ypStr += '<li style="width:100%;"><label>' + o + ':' + '</label><span>' + ypObj[o] + '</span></li>';
+										} else if(o == "不合格样品") {
+											if(ypObj[o].length == 0) {
+
+												ypStr += '<li style="width:100%;"><label>' + o + ':' + '</label><span style="color:#DC143C;">' + '无' + '</span></li>';
+											} else {
+
+												ypStr += '<li style="width:100%;"><label>' + o + ':' + '</label><span style="color:#DC143C;">' + ypObj[o] + '</span></li>';
+											}
+
+										} else {
+											ypStr += '<li><label>' + o + ':' + '</label><span>' + ypObj[o] + '</span></li>';
+										}
+
+									}
+								} else {
+
+									if(v == "营业执照名称") {
+										htmlStr += '<li style="width:100%;"><label>' + v + ':' + '</label><span>' + res.data[v] + '</span></li>';
+									} else {
+										htmlStr += '<li><label>' + v + ':' + '</label><span>' + res.data[v] + '</span></li>';
+									}
+								}
+							}
+							ypStr += '</ul>';
+							htmlStr += '</ul>';
+							htmlStr += ypStr;
+							$('#info').html(htmlStr); //渲染html标签
+						}
+					});
+
+					//这里是动态渲染的html标签所以使用绑定未来的事件方法控制
+					$(document).on('click', '#info-close', function() {
+
+						$('#info').hide(); //点击隐藏弹窗
+					});
+				}
+			};
+
+			//不合格样品统计表
+			function unqualifiedSampleTable(patternName) {
+				var Items = null;
+				var url = contextPath + '/QuickCheckController/StatisticsOfUnqualifiedSample'; //请求接口路径
+				//传参对象
+				var paramObj = {
+
+					patternName: patternName
+				};
+				//调用封装的ajax
+				$.axios(url, paramObj, function(res) {
+					Items = res.data;
+					var str = '';
+					var lengths = Items.length; //总数据条数 
+					if(lengths > 0) {
+
+						$.each(Items, function(i, item) {
+							/*当返回字段 （destruction）为"" 时,destruction 展示"/" ,不为""。反之，直接展示。*/
+							if(item.destruction == "") {
+								str += '<tr>' +
+									'<td>' + item.sampleName + '</td>' +
+									'<td>' + item.shopSignName + '</td>' +
+									'<td>' + item.villageInCity + '</td>' +
+									'<td>' + item.SamplingDate + '</td>' +
+									'<td>' + "/" + '</td>' +
+									'</tr>'
+
+							} else {
+
+								str += '<tr>' +
+									'<td>' + item.sampleName + '</td>' +
+									'<td>' + item.shopSignName + '</td>' +
+									'<td>' + item.villageInCity + '</td>' +
+									'<td>' + item.SamplingDate + '</td>' +
+									'<td>销毁' + item.destroy + '</td>' +
+									'</tr>'
+							}
+						});
+						$('.tbl-body tbody').html(str);
+						$('.tbl-header tbody').html(str);
+						rollingData(lengths); //调用滚动
+					} else {
+
+						str += "<tr style='border-bottom:0;'>" +
+							"<td colspan='5' style='height: 200px;'>当前暂无不合格样品统计信息！</td>"
+						"</tr>";
+						$('.tbl-header tbody').html(str);
+						$('.tbl-body tbody').html(str);
+					}
+				});
+			};
+
+			var tblTop2 = 0;
+			var MyMarhq = '';
+
+			function rollingData(lengths) {
+				if(lengths > 5) {
+					$('.tbl-body tbody').html($('.tbl-body tbody').html() + $('.tbl-body tbody').html());
+					$('.tbl-body').css('top', '0');
+					var speedhq1 = 50; // 数值越大越慢
+					var outerHeight = $('.tbl-body tbody').find("tr").outerHeight();
+
+					function TimeMemory() {
+						if(tblTop2 <= -outerHeight * lengths) {
+							tblTop2 = 0;
+						} else {
+							tblTop2 -= 1;
+						}
+						$('.tbl-body').css('top', tblTop2 + 'px');
+					}
+					MyMarhq = setInterval(TimeMemory, speedhq1);
+					// 鼠标移上去取消事件
+					$(".tbl-header tbody").hover(function() {
+						clearInterval(MyMarhq);
+					}, function() {
+						clearInterval(MyMarhq);
+						MyMarhq = setInterval(TimeMemory, speedhq1);
+					});
+				} else {
+
+					//停止滚动的判断
+					clearInterval(MyMarhq); //清除定时器
+					// 鼠标移上去取消事件并清除定时器
+					$(".tbl-header tbody").hover(function() {
+						clearInterval(MyMarhq);
+					}, function() {
+						clearInterval(MyMarhq);
+					});
+					$('.tbl-body').css('top', 0 + 'px');
+				}
+			}
+
+			function samplingStatistics() {
+				var url = contextPath + '/QuickCheckController/SamplingStatistics'; //请求接口路径
+				//调用封装的ajax
+				$.axios(url, '', function(res) {
+					Items = res.data;
+					var str = '';
+					var lengths = Items.length; //总数据条数 
+					if(lengths > 0) {
+						$.each(Items, function(i, item) {
+							if(item.rate != "100%") {
+								str += '<tr style="background-color:red; opacity:0.8; ">' +
+									'<td>' + item.shopSignName + '</td>' +
+									'<td>' + item.counts + '</td>' +
+									'<td>' + item.rate + '</td>' +
+									'<td>' + item.villageInCity + '</td>' +
+									'<td>' + item.SamplingDate + '</td>' +
+									'</tr>'
+							} else {
+								str += '<tr>' +
+									'<td>' + item.shopSignName + '</td>' +
+									'<td>' + item.counts + '</td>' +
+									'<td>' + item.rate + '</td>' +
+									'<td>' + item.villageInCity + '</td>' +
+									'<td>' + item.SamplingDate + '</td>' +
+									'</tr>'
+							}
+						});
+						$('.tbl-header-sample tbody').html(str);
+						$('.tbl-body-sample tbody').html(str);
+						sampleRoll(lengths); //调用滚动
+					} else {
+
+						str += "<tr style='border-bottom:0;'>" +
+							"<td colspan='5' style='height: 200px;'>当前暂无抽样情况信息！</td>"
+						"</tr>";
+						$('.tbl-header-sample tbody').html(str);
+						$('.tbl-body-sample tbody').html(str);
+					}
+				});
+			}
+			var tblTop = 0;
+			var MyMarhq1 = '';
+
+			function sampleRoll(lengths) {
+				clearInterval(MyMarhq1);
+				if(lengths > 5) {
+					$('.tbl-body-sample tbody').html($('.tbl-body-sample tbody').html() + $('.tbl-body-sample tbody').html());
+					$('.tbl-body-sample').css('top', '0');
+
+					var speedhq = 50; // 数值越大越慢
+					var outerHeight = $('.tbl-body-sample tbody').find("tr").outerHeight();
+
+					function Marqueehq() {
+						if(tblTop <= -outerHeight * lengths) {
+							tblTop = 0;
+						} else {
+							tblTop -= 1;
+						}
+						$('.tbl-body-sample').css('top', tblTop + 'px');
+					}
+					MyMarhq1 = setInterval(Marqueehq, speedhq);
+					// 鼠标移上去取消事件
+					$(".tbl-header-sample tbody").hover(function() {
+						clearInterval(MyMarhq1);
+					}, function() {
+						clearInterval(MyMarhq1);
+						MyMarhq1 = setInterval(Marqueehq, speedhq);
+					});
+				} else {
+
+					//停止滚动的判断
+					clearInterval(MyMarhq1); //清除定时器
+					// 鼠标移上去取消事件并清除定时器
+					$(".tbl-header-sample tbody").hover(function() {
+						clearInterval(MyMarhq1);
+					}, function() {
+						clearInterval(MyMarhq1);
+					});
+					$('.tbl-body-sample').css('top', '0');
+				}
+			}
+
+			$('#text1').click(function() {
+				var value1 = $(this).attr("data-name");
+				sessionStorage.setItem("key", value1);
+			});
+
+			$('#text2').click(function() {
+				var value2 = $(this).attr("data-name");
+				sessionStorage.setItem("key", value2);
+			});
+		</script>
+	</body>
+
+</html>

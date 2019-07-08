@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>详情内容大屏显示</title>
+		<link rel="stylesheet" type="text/css" href="../css/cssreset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../lib/layui/css/layui.css" />
+		<style type="text/css">
+			/*表格滚动 内容 Start */
+			
+			.tablebox {
+				/*height: 610px;*/
+				overflow: hidden;
+				position: relative;
+				background-color: rgba(6, 47, 55, .9);
+			}
+			
+			.tbl-header {
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 999;
+			}
+			
+			.tbl-body {
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			
+			.tablebox table {
+				width: 100%;
+			}
+			
+			.tablebox table th,
+			.tablebox table td {
+				font-size: 25px;
+				color: #fff;
+				line-height: 50px;
+				text-align: center;
+			}
+			
+			.tablebox table tr th {
+				background-color: rgb(6, 47, 55);
+				cursor: pointer;
+			}
+			
+			.tablebox table tr td {
+				background-color: transparent;
+			}
+			
+			.tbl-body tr:nth-child(even) td,
+			.tbl-body1 tr:nth-child(even) td {
+				/*background-color: rgba(6, 47, 55, .9)*/
+			}
+			
+			.tablebox table tr td span,
+			.tablebox table tr td span {
+				font-size: 24px;
+			}
+			
+			.scrolltable-header {
+				height: 40px;
+				line-height: 40px;
+				font-weight: bold;
+				color: #31708f;
+				background-color: #d9edf7;
+				border-color: #bce8f1;
+				padding: 20px;
+				font-size: 48px;
+			}
+			/*表格滚动 内容 End */
+		</style>
+	</head>
+
+	<body>
+		<div class="datachart">
+			<div class="layui-card">
+				<div class="layui-card-body" style="padding: 0; background-color: #F6F8F3;">
+					<div class="scrolltable">
+						<div class="layui-card">
+							<div class="layui-card-header scrolltable-header" id="header-title" style="text-align: left;">
+
+							</div>
+							<div class="layui-card-body" style="padding: 0;">
+								<div class="tablebox">
+									<div class="tbl-header">
+										<table border="0" cellspacing="0" cellpadding="0">
+											<thead>
+												<tr class="test1">
+													<!--<th>样品名称</th>
+													<th>检测结果</th>
+													<th>检测商铺</th>
+													<th>地址</th>
+													<th>商铺类型</th>
+													<th>采样时间</th>
+													<th>处理结果</th>-->
+												</tr>
+											</thead>
+											<tbody style="opacity:0;"></tbody>
+										</table>
+									</div>
+									<div class="tbl-body">
+										<table border="0" cellspacing="0" cellpadding="0">
+											<thead>
+												<tr class="test2">
+													<!--<th>样品名称</th>
+													<th>检测结果</th>
+													<th>检测商铺</th>
+													<th>地址</th>
+													<th>商铺类型</th>
+													<th>采样时间</th>
+													<th>处理结果</th>-->
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../lib/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				if(sessionStorage.getItem("key") == "不合格样品详情显示") {
+
+					unqualifiedSampleTable(''); //不合格样品详情显示
+				} else {
+
+					samplingStatistics(); //样品抽样情况显示
+				}
+			});
+
+			//不合格样品统计表
+			function unqualifiedSampleTable(patternName) {
+
+				var Items = null;
+				var url = contextPath + '/QuickCheckController/StatisticsOfUnqualifiedSample'; //请求接口路径
+				//传参对象
+				var paramObj = {
+
+					patternName: patternName
+				};
+				//调用封装的ajax
+				$.axios(url, paramObj, function(res) {
+					Items = res.data;
+					var str = ''; //拼接的html
+					var lengths = Items.length; //总数据条数  
+					$('#header-title').text('不合格样品详情显示');
+					$('.tablebox table tr').html('<th>样品名称</th><th>检测结果</th><th>检测商铺</th><th>地址</th><th>商铺类型</th><th>采样时间</th><th>处理结果</th>');
+					$.each(Items, function(i, item) {
+
+						/*当返回字段 （destruction）为"" 时,destruction 展示"/" ,不为""。反之，直接展示。*/
+						if(item.destruction == "") {
+							str = '<tr>' +
+								'<td>' + item.sampleName + '</td>' +
+								'<td>' + item.detectionResult + '</td>' +
+								'<td>' + item.shopSignName + '</td>' +
+								//'<td>' + removeRepeatStr(item.community, item.villageInCity, item.addressOfInspectedUnit) + '</td>' +
+								'<td>' + item.addressOfInspectedUnit + '</td>' +
+								'<td>' + item.placeType + '</td>' +
+								'<td>' + item.SamplingDate + '</td>' +
+								'<td>' + "/" + '</td>' +
+								'</tr>'
+						} else {
+							str = '<tr>' +
+								'<td>' + item.sampleName + '</td>' +
+								'<td>' + item.detectionResult + '</td>' +
+								'<td>' + item.shopSignName + '</td>' +
+								//'<td>' + removeRepeatStr(item.community, item.villageInCity, item.addressOfInspectedUnit) + '</td>' +
+								'<td>' + item.addressOfInspectedUnit + '</td>' +
+								'<td>' + item.placeType + '</td>' +
+								'<td>' + item.SamplingDate + '</td>' +
+								'<td>销毁' + item.destroy + '</td>' +
+								'</tr>'
+						}
+						$('.tbl-body tbody').append(str);
+						$('.tbl-header tbody').append(str);
+						var divHeight = $(document).height() - 81 + 'px';
+						$('.tablebox').css('height', divHeight);
+					});
+					rollingData(lengths); //调用滚动
+				});
+			};
+
+			function rollingData(lengths) {
+
+				var MyMarhq = '';
+				clearInterval(MyMarhq);
+				if(lengths > 5) {
+					$('.tbl-body tbody').html($('.tbl-body tbody').html() + $('.tbl-body tbody').html());
+					$('.tbl-body').css('top', '0');
+					var tblTop = 0;
+					var speedhq = 50; // 数值越大越慢
+					var outerHeight = $('.tbl-body tbody').find("tr").outerHeight();
+
+					function Marqueehq() {
+						if(tblTop <= -outerHeight * lengths) {
+							tblTop = 0;
+						} else {
+							tblTop -= 1;
+						}
+						$('.tbl-body').css('top', tblTop + 'px');
+					}
+					MyMarhq = setInterval(Marqueehq, speedhq);
+					// 鼠标移上去取消事件
+					$(".tbl-header tbody").hover(function() {
+						clearInterval(MyMarhq);
+					}, function() {
+						clearInterval(MyMarhq);
+						MyMarhq = setInterval(Marqueehq, speedhq);
+					});
+				}
+			};
+
+			function samplingStatistics() {
+				var url = contextPath + '/QuickCheckController/SamplingStatistics'; //请求接口路径
+				//调用封装的ajax
+				$.axios(url, '', function(res) {
+					Items = res.data;
+					var str = '';
+					var lengths = Items.length; //总数据条数 
+					$('#header-title').text('样品抽样情况详情显示');
+					$('.tablebox table tr').html('<th>商铺名称</th><th>抽样数量</th><th>合格率</th><th>商铺类型</th><th>地址</th><th>采样时间</th>');
+					$.each(Items, function(i, item) {
+						if(item.rate != "100%") {
+							str = '<tr style="background-color:red; opacity:0.8; ">' +
+								'<td>' + item.shopSignName + '</td>' +
+								'<td>' + item.counts + '</td>' +
+								'<td>' + item.rate + '</td>' +
+								'<td>' + item.placeType + '</td>' +
+								//'<td>' + removeRepeatStr(item.community, item.villageInCity, item.addressOfInspectedUnit) + '</td>' +
+								'<td>' + item.addressOfInspectedUnit + '</td>' +
+								'<td>' + item.SamplingDate + '</td>' +
+								'</tr>'
+						} else {
+							str = '<tr>' +
+								'<td>' + item.shopSignName + '</td>' +
+								'<td>' + item.counts + '</td>' +
+								'<td>' + item.rate + '</td>' +
+								'<td>' + item.placeType + '</td>' +
+								//'<td>' + removeRepeatStr(item.community, item.villageInCity, item.addressOfInspectedUnit) + '</td>' +
+								'<td>' + item.addressOfInspectedUnit + '</td>' +
+								'<td>' + item.SamplingDate + '</td>' +
+								'</tr>'
+						}
+						$('.tbl-body tbody').append(str);
+						$('.tbl-header tbody').append(str);
+						var divHeight = $(document).height() - 81 + 'px';
+						$('.tablebox').css('height', divHeight);
+					});
+					rollingData(lengths); //调用滚动
+				});
+			}
+
+			function removeRepeatStr(str1, str2, str3) {
+				var newStr = '';
+				if(str3.indexOf(str2) == -1) {
+					if(str3.indexOf(str1) == -1) {
+						if(str2.indexOf(str1) == -1) {
+							newStr = str1 + str2 + str3;
+						} else {
+							newStr = str2 + str3;
+						}
+					} else {
+						newStr = str3.split("社区").join(str2);
+					}
+				} else {
+					if(str3.indexOf(str1) == -1) {
+						newStr = str1 + str3;
+					} else {
+						newStr = str3;
+					}
+				}
+				return newStr;
+			}
+		</script>
+	</body>
+
+</html>

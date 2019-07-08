@@ -1,0 +1,55 @@
+/*常用CSS公共样式开始*/
+
+@charset "utf-8";
+html,
+body {
+	background: #fff;
+	height: 100%;
+	overflow-x: hidden;
+	font-family: Microsoft Yahei, Arial, Helvetica, sans-serif;
+	/*设置字体*/
+}
+
+input {
+	outline: none;
+	/*去掉input的默认外边框*/
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+
+/*去掉textarea的默认样式*/
+
+textarea {
+	resize: none;
+	border: none;
+}
+
+
+/*清除浮动通用写法*/
+
+.clearfix:after {
+	content: '';
+	display: block;
+	visibility: hidden;
+	clear: both;
+	height: 0;
+	line-height: 0;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+a {
+	text-decoration: none;
+	/*去掉所有a标签的下划线*/
+}
+
+

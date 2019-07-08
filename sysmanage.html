@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="css/font.css" />
+		<link rel="stylesheet" type="text/css" href="css/xadmin.css" />
+		<title>智慧食安大数据线上监控平台--系统管理入口</title>
+	</head>
+
+	<body>
+		<!-- 顶部开始 -->
+		<div class="container">
+			<div class="logo">
+				<a href="#">智慧食安大数据线上监控平台</a>
+			</div>
+			<div class="left_open">
+				<i title="展开左侧栏" class="iconfont" id="left">&#xe699;</i>
+			</div>
+			<ul class="layui-nav right" lay-filter="">
+				<li class="layui-nav-item">
+					<a href="javascript:;" class="userName"></a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="./login.html">切换账号</a>
+						</dd>
+						<dd>
+							<a href="./login.html">退出</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+			<ul class="layui-nav right" lay-filter="">
+				<li class="layui-nav-item">
+					<a href="javascript:;" >快速导航</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							    <a href="./index.html">返回首页</a>
+					    </dd>
+						<dd>
+							<a href="analyAssess.html">分析评价</a>
+						</dd>
+						<dd>
+							<a href="datamanage.html">数据管理</a>
+						</dd>
+						<dd>
+						<dd>
+							<a href="dataManageIndex.html">安全监控</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<!-- 顶部结束 -->
+		<!-- 中部开始 -->
+		<!-- 左侧菜单开始 -->
+		<div class="left-nav" id="left-nav">
+			<div id="side-nav">
+				<ul id="nav">
+					<li>
+						<a href="javascript:;">
+							<i class="iconfont">&#xe723;</i>
+							<cite>系统管理</cite>
+							<i class="iconfont nav_right">&#xe697;</i>
+						</a>
+						<ul class="sub-menu" id="sub-menu_right">
+							<li>
+								<a _href="userInfo.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>用户信息管理</cite>
+								</a>
+							</li>
+							<li>
+								<a _href="productInfo.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>样品信息管理</cite>
+								</a>
+							</li>
+
+							<li>
+								<a _href="storeInfo.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>商铺信息管理</cite>
+								</a>
+							</li>
+
+							<li>
+								<a _href="samplingTask.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>采样任务调度</cite>
+								</a>
+							</li>
+							<li>
+								<a _href="samplingManageInfo.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>采样监督管理</cite>
+								</a>
+							</li>
+							<li>
+								<a _href="dataImport.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>采样报告管理</cite>
+									<i class="iconfont nav_right">&#xe697;</i>
+								</a>
+								<ul class="sub-menu" id="sub-menu_right">
+									<li>
+										<a _href="sampleReport.html">
+											<i class="iconfont">&#xe6a7;</i>
+											<cite>采样报告管理</cite>
+										</a>
+									</li>
+									<li>
+										<a _href="monitorProject.html">
+											<i class="iconfont">&#xe6a7;</i>
+											<cite>检测项目管理</cite>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a _href="samplingSituation.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>抽样情况管理</cite>
+								</a>
+							</li>
+							<li>
+								<a _href="checkParameterInfo.html">
+									<i class="iconfont">&#xe6a7;</i>
+									<cite>操作日志管理</cite>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- <div class="x-slide_left"></div> -->
+		<!-- 左侧菜单结束 -->
+		<!-- 右侧主体开始 -->
+		<div class="page-content" style="bottom: 2px;">
+			<div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+				<ul class="layui-tab-title" id="top_tabs" style="position: absolute;">
+					<!--<li lay-id="">我的桌面</li>-->
+				</ul>
+				<ul class="layui-nav closeBox" style="position: absolute; height: 35px; z-index: 999; right: 0; background-color: #f2f2f2;">
+					<li class="layui-nav-item" style="line-height: 35px;">
+						<a href="javascript:;" style="padding: 0 35px; color: #000000;"><i class="iconfont icon-caozuo"></i> 页面操作</a>
+						<dl class="layui-nav-child" style="top: 40px;">
+							<dd>
+								<a href="javascript:;" class="refresh refreshThis"><i class="layui-icon">&#x1002;</i> 刷新当前</a>
+							</dd>
+							<dd>
+								<a href="javascript:;" class="closePageAll"><i class="iconfont icon-guanbi"></i> 关闭全部</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+				<div class="layui-tab-content">
+					<!--<div class="layui-tab-item layui-show">
+						<iframe src='welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<div class="page-content-bg "></div>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="lib/layui/layui.js"></script>
+		<script type="text/javascript" src="js/xadmin.js"></script>
+		<script type="text/javascript ">
+			$('.userName').html(sessionStorage.getItem('userName'));
+			layui.use(['form', 'element'], function() {
+				layer = layui.layer;
+				element = layui.element;
+				$("#sub-menu_right").click();
+				$("#sub-menu_right li ").eq(0).click();
+				$("#sub-menu_right li ").eq(0).find('ul li').eq(0).click();
+			});
+		</script>
+	</body>
+
+</html>

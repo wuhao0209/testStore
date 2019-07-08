@@ -1,0 +1,404 @@
+@charset "utf-8";
+
+/*登录页面 背景根据图片自适应屏幕大小*/
+
+.loginbox {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-image: url(../images/loginbg3.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+
+/*登录页面  logo和标题  Starts*/
+
+.loginbox .logintop {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+
+.loginbox .logintop .logo {
+	width: 318px;
+	height: 47px;
+}
+
+.loginbox .logintop .logo>h4 {
+	width: 290px;
+	height: 47px;
+	line-height: 47px;
+	color: #fff;
+	font-size: 18px;
+	text-align: right;
+	background: url(../images/logo.png) no-repeat center left;
+}
+
+.loginbox .quick_link {
+	height: 47px;
+	position: absolute;
+	top: 20px;
+	right: 40px;
+}
+
+.loginbox .quick_link>a {
+	font-size: 13px;
+	color: #fff;
+	line-height: 47px;
+	padding: 0 5px;
+}
+
+.loginbox .quick_link>a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+
+
+/*登录页面  logo和标题  End*/
+
+
+/*登录左侧中间部分内容  Starts*/
+
+.loginbox .logincenter {
+	width: 295px;
+	height: 279px;
+	position: absolute;
+	top: 40%;
+	left: 20px;
+}
+
+.loginbox .logincenter .fontimg {
+	margin-top: 10px;
+}
+
+
+/*登录左侧中间部分内容  End*/
+
+
+/*登录左侧底部分内容  Starts*/
+
+.loginbox .loginbottom {
+	height: 132px;
+	position: absolute;
+	top: 82%;
+	left: 20px;
+}
+
+.loginbox .loginbottom .bottomlist>li {
+	width: 99px;
+	height: 109px;
+	float: left;
+}
+
+.loginbottom .bottomlist .list1 {
+	background: url(../images/datamanage.png) no-repeat;
+}
+
+.loginbottom .bottomlist .list2 {
+	margin-left: 10px;
+	background: url(../images/evaluate.png) no-repeat;
+}
+
+.loginbottom .bottomlist .list3 {
+	margin-left: 10px;
+	background: url(../images/datamanage.png) no-repeat;
+}
+
+.loginbottom .bottomlist .list4 {
+	margin-left: 10px;
+	background: url(../images/datamanage.png) no-repeat;
+}
+
+.bottomlist .list1 .data {
+	/*使图片垂直水平居中*/
+	width: 99px;
+	height: 109px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.bottomlist .list2 .fenxi {
+	/*使图片垂直水平居中*/
+	width: 99px;
+	height: 109px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.bottomlist .list3 .safe {
+	/*使图片垂直水平居中*/
+	width: 99px;
+	height: 109px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.bottomlist .list4 .set {
+	/*使图片垂直水平居中*/
+	width: 99px;
+	height: 109px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.bottomlist #titles {
+	height: 12px;
+	line-height: 35px;
+}
+
+.bottomlist #titles>a {
+	color: #fff;
+	font-size: 12px;
+	text-align: center;
+}
+
+.bottomlist #titles>a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+
+
+/*登录左侧底部分内容  End*/
+
+
+/*登录主体部分内容  Starts*/
+
+.loginbox .content {
+	margin: 0 auto;
+	position: relative;
+}
+
+.loginbox .content .loginshadow {
+	position: absolute;
+	left: 31%;
+	width: 381px;
+	height: 381px;
+	margin: 0 auto;
+}
+
+.loginbox .content .userlogin {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	left: 60%;
+	top: 90%;
+}
+
+.loginbox .content .userlogin .usertitle {
+	height: 18px;
+	line-height: 18px;
+	color: #e9eeeb;
+	font-size: 18px;
+}
+
+.loginbox .content .userlogin .entitile {
+	height: 14px;
+	line-height: 14px;
+	color: #0baa23;
+	font-size: 14px;
+}
+
+.loginbox .content .login>li {
+	width: 295px;
+	height: 35px;
+	margin-top: 10px;
+}
+
+.loginbox .content .login>li>i {
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	background: url(../images/userbg.png) no-repeat;
+	margin-bottom: -13px;
+}
+
+.loginbox .content .login>li>i>img {
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	line-height: 18px;
+	display: block;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+.loginbox .content .login>li .usercode {
+	width: 251px;
+	height: 38px;
+	line-height: 44px;
+	outline: none;
+	font-size: 16px;
+	color: #FFF;
+	margin-top: 10px;		
+	margin-left: -7px;
+	padding-left: 17px;
+	padding-top: 5px;
+	background: url(../images/inputbg.png) no-repeat 7px 9px;
+}
+
+.loginbox .content .login>li .password {
+	width: 251px;
+	height: 38px;
+	line-height: 44px;
+	outline: none;
+	font-size: 16px;
+	color: #FFF;
+	margin-top: 20px;
+	margin-left: -7px;
+	padding-left: 17px;
+	padding-top: 5px;
+	background: url(../images/inputbg.png) no-repeat 7px 9px;
+}
+
+.loginbox .content .login .third {
+	width: 160px;
+	float: left;
+}
+
+.loginbox .content .forgetPwd {
+	margin-left: 76%;
+}
+
+.loginbox .content .forgetPwd>a {
+	color: #0a982d;
+	font-size: 14px;
+}
+
+.loginbox .content .forgetPwd>a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+/*验证码样式 */
+
+#slider {
+    width: 300px;
+    height: 50px;
+    position: relative;
+    border-radius: 20px;
+    background-color: #dae2d0;
+    overflow: hidden;
+    text-align: center;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+#slider_bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #7AC23C;
+    z-index: 1;
+}
+
+#label {
+    width: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 50px;
+    line-height: 50px;
+    border: 0px solid #cccccc;
+    background: #fff;
+    z-index: 3;
+    cursor: move;
+    color: #ff9e77;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+#labelTip {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-family: 'Microsoft Yahei', serif;
+    color: #787878;
+    line-height: 50px;
+    text-align: center;
+    z-index: 2;
+}
+
+
+
+/*登录按钮 使用美工提供的按钮图片作为背景*/
+
+.loginbox .content .green_btn {
+	width: 295px;
+	height: 45px;
+	text-align: center;
+	font-size: 18px;
+	color: #fff;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	background: url(../images/loginbtnbg.png) no-repeat;
+}
+
+.loginbox .content .green_btn:hover {
+	background-color: #2cc64d;
+	border: 1px solid #2ab949;
+}
+
+
+/*登录主体部分内容  End*/
+
+
+/*登录右侧内容  Starts*/
+
+.loginbox .loginright {
+	width: 226px;
+	height: 110px;
+	position: absolute;
+	top: 40%;
+	right: 30px;
+}
+
+.loginbox .rightimage {
+	margin-top: 30px;
+}
+
+
+/*登录右侧内容  Starts*/
+
+
+/*底部版权内容  End*/
+
+.loginbox .logincopyright {
+	color: #6d8085;
+	text-align: center;
+	font-size: 12px;
+	line-height: 28px;
+	position: absolute;
+	bottom: 1px;
+	left: 50%;
+	margin-left: -8%;
+}
+.systemMan{
+	line-height: 39px;
+}
+.loginBtn{
+	width: 295px;
+	height: 40px;
+	background-color:#009688 ;
+	border:1px solid #009688;
+	border-radius: 5px;
+	font-size: 20px;
+	text-align: center;
+	line-height: 38px;
+	color: #fff;
+	cursor: pointer;
+	-webkit-transition: all .5s;
+}
+.loginBtn:hover{
+	background-color: #19bdae;
+}
+/*底部版权内容  End*/

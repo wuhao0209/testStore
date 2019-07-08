@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="css/font.css" />
+		<link rel="stylesheet" type="text/css" href="css/xadmin.css" />
+		<title>商铺信息管理</title>
+		<style type="text/css">
+			.layui-input,
+			.layui-select,
+			.layui-textarea {
+				height: 35px;
+			}
+			
+			.layui-form-item {
+				margin-bottom: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="x-body">
+			<!-- 弹出层按钮 -->
+			<div class="clearfix">
+				<xblock style="line-height:38px; margin-bottom: 5px;">
+					<form style="display: inline-flex;">
+						<input class="layui-input x_search" placeholder="请输入商铺信息进行查询" id="patternName" style="width: 150px;padding-top:5px;">&nbsp;&nbsp;
+						<label class="layui-form-label">选择开始日期</label>
+						<div class="layui-input-inline" style="float: left;">
+							<input type="text" id="StartTime" name="StartTime" autocomplete="off" placeholder="选择开始日期" class="layui-input">
+						</div>
+						<label class="layui-form-label" style="text-align:center">选择结束日期</label>
+						<div class="layui-input-inline">
+							<input type="text" id="EndTime" name="EndTime" autocomplete="off" placeholder="选择结束日期" class="layui-input">
+						</div>
+						<!--<label class="layui-form-label">营业执照</label>
+						<div class="layui-input-inline">
+							<input type="text" id="picName" readonly="true" autocomplete="off" class="layui-input">
+							<input type="hidden" name="picture" id="pic" autocomplete="off" class="layui-input" />
+						</div>
+						<div class="layui-upload" style="display: inline-block;margin-left:10px;">
+							<button type="button" class="layui-btn layui-btn-sm" id="picSelect" onclick="picUploadClick()"><i class="layui-icon"></i>选择照片</button>
+							<button type="button" class="layui-btn layui-btn-sm" id="picUpload"><i class="layui-icon"></i>确定上传</button>
+						</div>-->
+					</form>
+					<div style="display: inline-flex;">
+						<button class="layui-btn layui-btn-sm" id="updataBtn" style="margin-left:10px;"><i class="layui-icon">&#xe642;</i>修改</button>
+						<button class="layui-btn layui-btn-sm" id="exportBtn"><i class="layui-icon">&#xe60a;</i>导出</button>
+					</div>
+					<!--隐藏的form表单-->
+					<form id="myformPic">
+						<input type="file" multiple="multiple" name="files" id="myfilePic" style="display: none;" />
+					</form>
+				</xblock>
+			</div>
+			<!-- 查询结果显示 -->
+			<div class="show">
+				<div style="width: 100%;">
+					<table class="layui-hide" id="pageTable" lay-filter="pageTable"></table>
+					<div class="pages" id="doctorDiv" style="text-align:center;"></div>
+					<!--分页组件-->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="lib/layui/layui.js"></script>
+		<script type="text/javascript" src="js/xadmin.js"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var table = "";
+			var form = "";
+			var upload = "";
+			var globalNum = 1;
+			var limitNum = 100;
+			var dataCount = 0;
+			var condition = new Object();
+			$(document).ready(function() {
+
+				initLayUi(); //初始化渲染所有的方法
+			});
+
+			function initLayUi() {
+				layui.use(['table', 'upload'], function() {
+					var $ = layui.$;
+					table = layui.table;
+					upload = layui.upload;
+					condition.patternName = '';
+					refreshData(globalNum, limitNum, dataCount, ''); //加载表格数据
+					search(); //条件查询
+					update(); //修改
+					initDate('StartTime'); // 开始时间
+					initDate('EndTime'); // 结束时间
+					exportData(); //调用导出方法
+				});
+			};
+
+			//查询
+			function search() {
+
+				$('#patternName').keyup(function() {
+					var demoReload = $('#patternName').val(); //获取用户输入的查询条件
+					refreshData(globalNum, limitNum, dataCount, demoReload);
+				});
+			}
+			//修改
+			function update() {
+				$("#updataBtn").on('click', function(obj) {
+					var checkStatus = table.checkStatus('myTab'); //test即为基础参数id对应的值
+					if(checkStatus.data.length != 1) {
+						layer.msg('请选择一行!');
+						return false;
+					}
+					x_admin_show('修改', './syspage/storeInfoModify.html', '700', '450');
+				});
+			};
+
+			function picUpload(AddressOfInspectedUnit, FullName) {
+
+				$(".picUpload").click(function() {
+					var formData = new FormData();
+					var files = document.getElementById('myfilePic').files; //获取选中文件的集合
+					for(var n = 0; n < files.length; n++) {
+
+						formData.append('files', files[n]); //多文件上传遍历
+					}
+					formData.append('AddressOfInspectedUnit', AddressOfInspectedUnit);
+					formData.append('FullName', FullName);
+
+					if(formData.get('file') == 'undefined' || formData.get('file') == '') {
+						return false;
+					}
+					fileAjaxFun(formData, 'pic');
+				});
+			}
+
+			function picUploadChage() {
+
+				$("#myfilePic").change(function(e) {
+					var files = e.currentTarget.files; //获取当前选中文件的对象
+					var fileName = ''; //获取文件名
+					if(files && files.length > 0) {
+
+						for(var i = 0; i < files.length; i++) {
+
+							fileName += files[i].name + ","; //上传多个文件名称用逗号隔开
+						}
+						fileName = fileName.substr(0, fileName.length - 1);
+					}
+					$("#picName").val(fileName);
+				});
+			}
+
+			function picUploadClick() {
+				$("#myfilePic").click();
+			}
+
+			function fileAjaxFun(formData, elementID) {
+
+				$.ajax({
+					type: "POST",
+					url: contextPath + '/StoreInfoController/UploadBusinessImg',
+					headers: {
+						token: getCookiesList('zhsa')
+					},
+					data: formData,
+					cache: false, // 不缓存
+					processData: false, // jQuery不要去处理发送的数据
+					contentType: false, // jQuery不要去设置Content-Type请求头
+					success: function(res) {
+
+						if(res.code == 0) {
+							parent.layer.msg('上传成功提示');
+							table.reload('mytab');
+						} else {
+
+							parent.layer.msg('请执行选择文件操作!');
+							var fileNames = $("#" + elementID).val();
+							$("#" + elementID).val(fileNames);
+						}
+					},
+					error: function() {}
+				});
+			}
+
+			//数据导出
+			function exportData() {
+
+				$('#exportBtn').click(function() {
+					var url = contextPath + '/StoreInfoController/excle';
+					var startTime = $('#StartTime').val();
+					var endTime = $('#EndTime').val();
+					var obj = {
+
+						"startTime": startTime,
+						"endTime": endTime
+					};
+					//调用封装的ajax
+					$.axios(url, obj, function(res) {
+						if(res.code == 0) {
+							window.open(res.data.url); //跳转至Excel下载地址
+						}
+					});
+				});
+			};
+
+			/*
+			 *表格数据分页展示
+			 * globalNum:起始页码
+			 * limitNum:默认每页条数
+			 * dataCount:数据总数 服务端返回
+			 * patternName:输入的查询条件
+			 */
+			var i = 1;
+
+			function refreshData(globalNum, limitNum, dataCount, patternName) {
+
+				var url = contextPath + '/StoreInfoController/findStoreInfo'; //接口路径
+				//传参对象
+				var obj = {
+
+					"page": globalNum,
+					"limit": limitNum,
+					"patternName": patternName,
+					"type": "search" //type属性很重要 一定要加上
+				};
+
+				//调用封装的ajax
+				$.axios(url, obj, function(res) {
+					dataCount = res.count;
+					dataArray = res.data;
+					layui.use(['laypage'], function() {
+						var laypage = layui.laypage;
+						laypage.render({
+							elem: 'doctorDiv', //分页需要显示的地方
+							count: dataCount,
+							limit: 100,
+							limits: [100, 200, 500],
+							theme: 'pageStyle',
+							layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+							jump: function(obj) {
+								obj.limits.push(dataCount);
+								obj.limits = unique(obj.limits);
+								//定义一个立即执行函数
+								var init = function() {
+									if(dataArray == "") {
+										var nullData = []; //判断用户输入的搜索条件无数据时 传空数组给表格
+										pageTable(nullData, dataCount, obj.limit);
+									} else {
+										var thisData = dataArray.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+										pageTable(thisData, dataCount, obj.limit);
+										pageDataAll(i, dataCount);
+										test(thisData);
+									}
+								}();
+							},
+						});
+					});
+				});
+			};
+
+			function unique(arr) {
+				var hash = [];
+				for(var i = 0; i < arr.length; i++) {
+					if(hash.indexOf(arr[i]) == -1) {
+						hash.push(arr[i]);
+					}
+				}
+				return hash;
+			}
+			//表格渲染
+			function pageTable(dataArray, dataCount, limit) {
+
+				layui.use(['table'], function() {
+					var table = layui.table;
+
+					table.render({
+						id: "myTab",
+						elem: '#pageTable',
+						//toolbar: '#toolbarDemo',
+						cellMinWidth: 80,
+						page: false,
+						height: 'full-160',
+						limit: limit,
+						data: dataArray,
+						cols: [
+							[ //标题栏
+								{
+									type: 'checkbox',
+									fixed: 'left',
+									rowspan: 2,
+								}, {
+									field: 'shopSignName',
+									title: '企业名称',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'addressOfInspectedUnit',
+									title: '地址',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'a',
+									title: '法人',
+									align: 'center',
+									sort: true,
+									rowspan: 2,
+									templet: function(d) {
+										return ''
+									}
+								}, {
+									field: 'fullName',
+									title: '联系人',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'tel',
+									title: '联系电话',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'c',
+									title: '经营项目',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'd',
+									title: '所属区域',
+									align: 'center',
+									sort: true,
+									rowspan: 2,
+									templet: function(d) {
+										return '吉华'
+									}
+								}, {
+									field: 'affiliate',
+									title: '所属机构',
+									align: 'center',
+									rowspan: 2,
+									sort: true
+								}, {
+									field: 'placeType',
+									title: '企业类型',
+									align: 'center',
+									sort: true,
+									rowspan: 2
+								}, {
+
+									title: '营业执照',
+									align: 'center',
+									colspan: 2
+								}
+							],
+							[{
+								field: 'uploads',
+								title: '上传',
+								align: 'center',
+								toolbar: '#barUp'
+							}, {
+								field: 'down',
+								title: '预览',
+								align: 'center',
+								//toolbar: '#barDown',
+								templet: function(d) {
+									console.log(d.LAY_INDEX);
+									let id = 'view' + d.LAY_INDEX;
+									if(JSON.stringify(d.businessImg) === '[]' || d.businessImg == null) {
+										return '<a></a>';
+									} else {
+										var imgUrl = d.businessImg;
+										return '<a id=' + id + ' class="layui-btn layui-btn-xs"><i class="layui-icon" style="font-size: 50px;">&#xe601;</i></a>';
+									}
+
+								}
+							}]
+						]
+					});
+
+					//监听table里面的按钮点击事件
+					table.on('tool(pageTable)', function(obj) {
+						var data = obj.data; //获得当前行数据
+						var layEvent = obj.event; //获得 lay-event 对应的值
+						if(layEvent === 'upLoad') {
+
+							picUploadClick(); //点击选择上传文件
+							picUpload(data.addressOfInspectedUnit, data.fullName); //确认上传
+						}
+					});
+				});
+			}
+
+			function test(data) {
+
+				var imgUrl;
+				let id = data.map((value, index, arr) => {
+					return '#view' + (value.LAY_TABLE_INDEX + 1);
+				});
+				for(let i = 0; i < id.length; i++) {
+					$(id[i]).on('click', function() {
+						for(let j = 0; j < data[i].businessImg.length; j++) {
+							window.open(data[i].businessImg[j], '_blank').location;
+						}
+					});
+				}
+			}
+		</script>
+		<script type="text/html" id="barDown">
+			<button class="layui-btn layui-btn-xs" lay-event="downLoad"><i class="layui-icon" style="font-size: 50px;">&#xe601;</i></button>
+		</script>
+		<script type="text/html" id="barUp">
+			<button class="layui-btn layui-btn-sm up" lay-event="upLoad"><i class="layui-icon" style="font-size: 50px;">&#xe681;</i></button>
+			<button class="layui-btn layui-btn-sm picUpload" lay-event="confim">确定</i></button>
+		</script>
+	</body>
+</html>

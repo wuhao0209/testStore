@@ -1,0 +1,253 @@
+#tip {
+	height: 45px;
+	background-color: #fff;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 1px solid #969696;
+	position: absolute;
+	font-size: 12px;
+	right: 10px;
+	bottom: 20px;
+	border-radius: 3px;
+	line-height: 45px;
+}
+
+div.info-top {
+	position: relative;
+	background: none repeat scroll 0 0 #fff;
+	border-radius: 5px 5px 0 0;
+	height: 22px;
+	line-height: 22px;
+	border-bottom: 1px solid #16b150;
+}
+
+div.info-top div {
+	display: inline-block;
+	color: #16b150;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 10px;
+}
+
+div.info-top img {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	transition-duration: 0.25s;
+}
+
+div.info-top img:hover {
+	box-shadow: 0px 0px 5px #000;
+}
+
+div.info-middle {
+	font-size: 12px;
+	padding: 2px;
+	line-height: 20px;
+	height: 260px;
+}
+
+div.info-bottom {
+	height: 0px;
+	width: 100%;
+	clear: both;
+	text-align: center;
+}
+
+div.info-bottom img {
+	position: relative;
+	z-index: 104;
+}
+
+.contents .content_List>li>span {
+	color: #a4a4a4;
+	margin-left: 5px;
+	font-size: 14px;
+}
+
+.info-middle img {
+	float: left;
+	margin-right: 6px;
+}
+
+.contents .content_List {
+	line-height: 22px;
+	border-bottom: 1px dashed #e4e4e4;
+}
+
+.page {
+	width: 30%;
+	float: left;
+	margin-top: 5px;
+}
+
+.dishes {
+	width: 100px;
+	height: 14px;
+	line-height: 14px;
+	padding-left: 10px;
+	text-align: center;
+	font-size: 14px;
+	color: #c3c3c3;
+}
+
+.testItem {
+	width: 94px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	margin-top: 10px;
+	margin-left: 10px;
+	border-radius: 1px;
+	background-color: #fe6e0d;
+}
+
+.suggest {
+	line-height: 26px;
+	color: #23b458;
+	font-size: 14px;
+	padding-left: 10px;
+	background-color: #d6f9c9;
+}
+
+#pickerBox {
+	position: absolute;
+	z-index: 9999;
+	top: 10px;
+	left: 10px;
+	width: 300px;
+	height: 45px;
+}
+
+#pickerInput {
+	width: 100%;
+	height: 37px;
+	line-height: 45px;
+	padding: 1px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #6f7de3;
+	/*background: url(../images/mapsearch.png) no-repeat center right;*/
+}
+
+#poiInfo {
+	background-color: #fff;
+}
+
+.topInfoLayer {
+	width: 330px;
+}
+
+.topInfoLayer .infoTitle {
+	border-radius: 5px 5px 0 0;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid #16b150;
+	background-color: #e5eecc;
+}
+
+.topInfoLayer .infoTitle>h4 {
+	color: #000;
+	font-size: 16px;
+	padding-left: 10px;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+.topInfoLayer .bottomButton {
+	width: 250px;
+	margin: 0 auto;
+}
+
+
+/* qq-client 开始 */
+
+.qq-client {
+	z-index: 9999;
+	position: fixed;
+	right: 20px;
+	top: 18%;
+	background-color: #e6e6e6;
+}
+
+.qq-client a {
+	display: block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 2px;
+	padding: 0px 0px;
+	margin-bottom: 1px;
+}
+
+.qq-client-content {
+	position: fixed;
+	right: -250px;
+	top: 10%;
+	border: #ebebeb solid 1px;
+	width: 330px;
+	display: none;
+	background: #ffffff;
+	z-index: 9999;
+}
+
+.qq-client-content h1 {
+	font-size: 16px;
+	width: 90%;
+	margin: 0px auto;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	letter-spacing: 5px;
+	border-bottom: #ebebeb solid 1px;
+	position: relative;
+}
+
+.qq-client-content h1 span {
+	font-size: 12px;
+	font-weight: normal;
+	position: absolute;
+	left: -25px;
+	top: -15px;
+	cursor: pointer;
+	line-height: 40px;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.qq-client-list {
+	background: #ffffff;
+}
+
+.client-list {
+	overflow: hidden;
+	line-height: 40px;
+	width: 90%;
+	margin: 0px auto;
+	border-bottom: dashed 1px #ebebeb;
+}
+
+.client-list a {
+	display: block;
+}
+
+.client-list a:hover {
+	color: red;
+}
+
+.client-list span {
+	float: left;
+}
+
+.client-list label {
+	float: left;
+	width: 60px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+
+/* qq-client 结束 */

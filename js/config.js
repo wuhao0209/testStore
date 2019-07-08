@@ -1,0 +1,209 @@
+var contextPath = 'http://192.168.8.88:8088'; //提交时注意 后台使用 
+//var contextPath = 'http://183.62.172.21:8998'; //提交时注意 服务器使用
+var userName = sessionStorage.getItem('userName'); //获取本地存储的当前登录用户名
+/**
+ * jQuery Ajax封装通用类
+ */
+$(function() {
+	/**
+	 * ajax封装
+	 * url 发送请求的地址
+	 * data 发送到服务器的数据，数组存储
+	 * successfn 成功回调函数
+	 */
+	jQuery.axios = function(url, data, successfn) {
+		$.ajax({
+			type: "post",
+			headers: {
+				token: getCookiesList('zhsa')
+			},
+			data: data,
+			url: url,
+			dataType: "json",
+			success: function(d) {
+				if(d.errCode == 1006) {
+					layui.layer.confirm('页面过期请重新登录系统', function() {
+						window.top.location = "login.html";
+					});
+					return false;
+				} else {
+					successfn(d);
+				}
+			}
+		});
+	};
+
+	/**
+	 * ajax封装
+	 * url 发送请求的地址
+	 * data 发送到服务器的数据，数组存储
+	 * dataType 预期服务器返回的数据类型，常用的如：xml、html、json、text
+	 * successfn 成功回调函数
+	 * errorfn 失败回调函数
+	 */
+	jQuery.https = function(url, data, successfn) {
+
+		$.ajax({
+			type: "post",
+			headers: {
+				token: getCookiesList('zhsa')
+			},
+			url: url,
+			dataType: "json",
+			contentType: "application/json",
+			data: data,
+			success: function(d) {
+				if(d.errCode == 1006) {
+					layer.confirm('页面过期请重新登录系统', function() {
+						window.top.location = "../login.html";
+					});
+					return false;
+				} else {
+					successfn(d);
+				}
+			},
+		});
+	};
+});
+
+/**
+ * 表单删除封装二
+ * key值为id使用
+ * 传参layui的table对象和接口url
+ */
+function deleteInfo(table, url) {
+
+	$("#deleteBtn").click(function(obj) {
+		var checkStatus = table.checkStatus('myTab'); //test即为基础参数id对应的值
+		if(checkStatus.data.length < 0) {
+			layer.msg('请选择一行!');
+			return false;
+		}
+		var ids = [];
+		for(var i = 0; i < checkStatus.data.length; i++) {
+			ids.push(checkStatus.data[i]._id);
+		}
+		//传输参数对象
+		var idsObj = "_ids=" + ids.toString() + "&LoginName=" + userName;
+		layer.confirm('您是否要删除选中行数据', function() {
+			//调用封装的ajax
+			$.axios(url, idsObj, function(res) {
+				if(res.code == 0) {
+					layer.alert(res.msg, {
+						title: '删除提示',
+						icon: 1,
+					});
+					table.reload("myTab")
+				} else {
+					layer.alert(res.msg, {
+						title: '删除提示',
+						icon: 2,
+					});
+				}
+			});
+		});
+	});
+};
+
+/**
+ *  判断非空对象函数
+ */
+function isNull(o) {
+	if(o == null || o == '' || typeof(o) == 'undefined' || o == "null") {
+		return true;
+	}
+};
+
+function isDone(res) {
+	if(res.errCode == 1006) {
+		layer.confirm('页面过期请重新登录系统', function() {
+			window.top.location = "login.html";
+		});
+	}
+};
+
+/**
+ * 	文件上传ajax请求操作(单独处理)
+ */
+function fileReq(formData, elementID) {
+
+	$.ajax({
+		type: "POST",
+		url: contextPath + '/LeadController/upload',
+		data: formData,
+		cache: false, // 不缓存
+		processData: false, // jQuery不要去处理发送的数据
+		contentType: false, // jQuery不要去设置Content-Type请求头
+		success: function(res) {
+
+			if(res.code == 0) {
+				if(res.data != "") {
+					parent.layer.msg('上传成功提示');
+					$("#" + elementID).val(res.data);
+				} else {
+
+					parent.layer.msg('请执行选择文件操作!');
+					var fileNames = $("#" + elementID).val();
+					$("#" + elementID).val(fileNames);
+				}
+			}
+		},
+		error: function() {}
+	});
+};
+
+/*layui的时间控件*/
+function initDate(id) {
+	layui.use(['laydate'], function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#' + id,
+			type: 'date',
+			format: 'yyyy/MM/dd', // 分隔符可以任意定义 
+			festival: true,
+			istoday: false,
+			//value: new Date(),
+			isInitValue: true,
+			max: 0,
+			trigger: 'click', //采用click弹出
+			istime: true,
+			done: function(data) {}
+		});
+	});
+};
+
+/*表格分页显示全部数据*/
+function pageDataAll(i, count) {
+	if(i === 1) {
+		$(".layui-laypage-limits").find("select").append("<option id ='yyyy' value=" + count + ">显示全部（共" + count + "条）</option>")
+	} else {
+		$(".layui-laypage-limits").find("select").append("<option id ='yyyy' value=" + count + " selected>显示全部（共" + count + "条）</option>")
+	}
+	$(".layui-laypage-limits select").change(function(e) {
+		i = 1;
+		if($(this).children('option:selected').val() === count) {
+			i++;
+			$(".layui-laypage-limits").find("select").append("<option id ='yyyy' value=" + count + " selected>显示全部（共" + count + "条）</option>")
+		}
+	});
+}
+
+//设置cookie信息
+function setCookie(name, value, expireHours) {
+	var exp = new Date();
+	exp.setTime(exp.getTime() + expireHours * 60 * 60 * 1000); //exp过期时间 = 当前时间 +过期时间(秒)
+	document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + ";path=/";
+};
+
+//获取唯一cookie
+function getCookiesList(name) {
+	var cookies = document.cookie;
+	var list = cookies.split(";"); 
+	var cookie="";
+	for(var i = 0; i < list.length; i++) {
+		if(list[i].split("=")[0].replace(/(^\s*)|(\s*$)/g, "") == name) {
+			cookie=list[i].split("=")[1].replace(/(^\s*)|(\s*$)/g, ""); //这里是对cookie解码操作
+		}
+	}
+	return cookie;
+}

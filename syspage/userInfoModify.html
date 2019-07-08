@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="../css/font.css" />
+		<link rel="stylesheet" type="text/css" href="../css/xadmin.css" />
+		<title>用户信息--修改</title>
+	</head>
+	<body>
+		<div class="x-body">
+			<form class="layui-form" lay-filter="formTest">
+				<div class="layui-form-item">
+					<label class="layui-form-label"> <span class="x-red">*</span>用户名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="userName" id="userName" readonly="readonly" autocomplete="off" class="layui-input">
+					</div>
+					<label class="layui-form-label"> <span class="x-red">*</span>密码</label>
+					<div class="layui-input-inline">
+						<input type="password" name="passWord" id="userPwd" lay-verify="password" autocomplete="off" class="layui-input" placeholder="默认为空，不修改密码">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="x-red">*</span>所属部门</label>
+					<div class="layui-input-inline">
+						<select name="department" id="department" lay-verify="required" class="layui-input">
+							<option value="吉华快检室">吉华快检室</option>
+							<option value="吉华快检车">吉华快检车</option>
+						</select>
+					</div>
+					<label class="layui-form-label"><span class="x-red">*</span> 职务</label>
+					<div class="layui-input-inline">
+						<select name="duty" id="duty" lay-verify="required" class="layui-input">
+							<option value="快检员">快检员</option>
+							<option value="组长">组长</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label"> <span class="x-red">*</span>电话</label>
+					<div class="layui-input-inline">
+						<input type="text" name="tel" lay-verify="phone|number" autocomplete="off" class="layui-input">
+					</div>
+					<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+					<div class="layui-input-inline">
+						<select name="status" id="status" lay-verify="required" class="layui-input">
+							<option value="在职">在职</option>
+							<option value="离职">离职</option>
+						</select>
+					</div>
+					<div class="layui-input-inline" style="display: none;">
+						<input type="text" name="creator" readonly="readonly" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline" style="display: none;">
+						<input type="text" name="_id" readonly="readonly" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline" style="display: none;">
+						<input type="text" name="loginName" id="loginName" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item buttonGroup">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formSubmit">保存</button>
+						<button type="button" class="layui-btn" onclick="x_admin_close()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script src="../js/jquery-3.2.1.js" type="text/javascript"></script>
+		<script src="../lib/layui/layui.js" type="text/javascript"></script>
+		<script src="../js/xadmin.js" type="text/javascript"></script>
+		<script src="../js/md5.js" type="text/javascript"></script>
+		<script src="../js/config.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				getform(); //获取选中行的表单
+				updateSaveInfo(); //提交保存
+			});
+
+			//给表单的输入框进行赋值
+			function getform() {
+
+				layui.use(['table', 'form'], function() {
+
+					var form = layui.form;
+					var tables = parent.layui.table;
+					var idArray = []; //将id存入数组便于下一个
+					var checkStatus = tables.checkStatus('myTab'); //myTab即为父窗口table的基础参数id对应的值
+					var data = checkStatus.data;
+					//表单赋值
+					form.val("formTest", {
+
+						"_id": data[0]._id,
+						"userName": data[0].userName,
+						"department": data[0].department,
+						"passWord": data[0].passWord,
+						"tel": data[0].tel,
+						"status": data[0].status,
+						"duty": data[0].duty,
+						"creator": data[0].creator
+					});
+				})
+			};
+
+			function updateSaveInfo() {
+
+				layui.use(['table', 'form'], function() {
+
+					var form = layui.form;
+					var table = layui.table;
+					var tables = parent.layui.table;
+					$("#loginName").val(userName); //赋值loginName
+					//监听提交保存
+					form.on('submit(formSubmit)', function(data) {
+
+						/*var regx = /^[\S]{6,12}$/; //自定义正则验证
+						if($("#userPwd").val() != '') {
+							if($("#userPwd").val().match(regx) == null) {
+
+								layer.msg("密码必须6到12位,且不能出现空格");
+								return false;
+							}
+							formData += "&password=" + hex_md5($("#userPwd").val()); //表单序列化并密码单独md5加密处理
+						}*/
+
+						if($("#userPwd").val() != '') {
+
+							var userPwd = hex_md5($("#userPwd").val()); //密码单独md5加密处理
+							$('#userPwd').val(userPwd); //赋值
+						}
+						var url = contextPath + "/ChecksUserController/addAndModifyUser"; //接口路径
+						var detailObj = new Object(); //传给后台的对象集合
+						var formData = $(data.form).serializeArray(); //序列化表单对象
+						$.each(formData, function() {
+							detailObj[this.name] = this.value; //处理表单序列化内容 组合key:value
+						});
+						//调用封装的ajax
+						$.https(url, JSON.stringify(detailObj), function(res) {
+							if(res.code == 0) {
+								//先得到当前iframe层的索引
+								var frameindex = parent.layer.getFrameIndex(window.name);
+								parent.layer.close(frameindex);
+								parent.layer.alert(res.msg, {
+									title: '保存成功提示',
+									icon: 1,
+								});
+								tables.reload("myTab");
+							} else {
+								layer.alert(res.msg, {
+									title: '保存失败提示',
+									icon: 2,
+								});
+							}
+						});
+						return false;
+					});
+				});
+			};
+		</script>
+	</body>
+</html>
